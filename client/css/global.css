@@ -1,0 +1,227 @@
+/*--------------------------------------------------------------
+# COMPONENTS
+--------------------------------------------------------------*/
+html,
+body {
+    /* size */
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    /* style */
+    background: #f4f4f4;
+    font-family: "Vazirmatn";
+}
+
+button,
+input,
+select,
+textarea {
+    /* style */
+    font-family: "Vazirmatn";
+}
+
+/*--------------------------------------------------------------
+# GLOBAL CLASSES
+--------------------------------------------------------------*/
+.hidden {
+    /* style */
+    display: none;
+}
+
+.error {
+    /* size */
+    padding: 0px 10px;
+    /* style */
+    text-align: right;
+    color: red;
+    font-size: 14px;
+}
+
+/*--------------------------------------------------------------
+# LOGIN SECTION
+--------------------------------------------------------------*/
+#login-section {
+    /* size */
+    width: 300px;
+    padding: 20px;
+    /* style */
+    text-align: center;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    /* position */
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+#login-section input,
+#login-section select,
+#login-section button {
+    /* style */
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+#login-section input {
+    /* size */
+    width: 100%;
+    padding: 10px;
+    margin: 4px 0;
+    box-sizing: border-box;
+}
+
+#login-section select {
+    /* size */
+    width: 100%;
+    padding: 2.5px 5px;
+    margin: 4px 0;
+    box-sizing: border-box;
+}
+
+#login-section button {
+    /* size */
+    width: 100%;
+    padding: 10px 20px;
+    margin-top: 10px;
+    margin-bottom: 15px;
+}
+
+#login-section .error {
+    /* size */
+    height: 22px;
+    margin: 0px;
+}
+
+/*--------------------------------------------------------------
+# SCREEN WARNING
+--------------------------------------------------------------*/
+#screen-warning {
+    /* size */
+    width: 100vw;
+    height: 100vh;
+    padding: 2rem;
+    /* arrangement */
+    align-items: center;
+    justify-content: center;
+    /* style */
+    background-color: #c0392b;
+    color: #fff;
+    font-size: 1.5rem;
+    text-align: center;
+    box-sizing: border-box;
+    /* position */
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 9999;
+}
+
+/*--------------------------------------------------------------
+# ALERTS
+--------------------------------------------------------------*/
+.alert-hidden {
+    /* arrangement */
+    display: none !important;
+}
+
+.custom-alert {
+    /* arrangement */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* style */
+    background: rgba(0, 0, 0, 0.5);
+    /* position */
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    direction: rtl;
+    z-index: 9999;
+}
+
+.alert-box {
+    /* size */
+    max-width: 400px;
+    padding: 20px 30px;
+    /* style */
+    background: white;
+    border-radius: 8px;
+    text-align: center;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+}
+
+.alert-box input {
+    /* size */
+    width: 90%;
+    margin: 10px 0;
+    padding: 6px;
+    /* style */
+    font-size: 14px;
+}
+
+.alert-box button {
+    /* size */
+    margin: 10px 5px 0 5px;
+    padding: 8px 20px;
+    /* style */
+    background-color: crimson;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.yesno-buttons {
+    /* arrangement */
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+/*--------------------------------------------------------------
+# TABLE
+--------------------------------------------------------------*/
+.th-25 {
+    /* size */
+    width: 25px;
+}
+
+.th-50 {
+    /* size */
+    width: 50px;
+}
+
+.th-75 {
+    /* size */
+    width: 75px;
+}
+
+.th-100 {
+    /* size */
+    width: 100px;
+}
+
+.th-150 {
+    /* size */
+    width: 150px;
+}
+
+.th-175 {
+    /* size */
+    width: 175px;
+}
+
+.th-200 {
+    /* size */
+    width: 200px;
+}
+
+.th-300 {
+    /* size */
+    width: 300px;
+}

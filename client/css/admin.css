@@ -1,0 +1,183 @@
+/*--------------------------------------------------------------
+# COMPONENTS
+--------------------------------------------------------------*/
+button {
+    /* size */
+    padding: 0.5rem 1rem;
+    /* style */
+    background: #c2185b;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+button:hover {
+    /* style */
+    background: #880e4f;
+}
+
+button:disabled {
+    background-color: #ccc;
+    color: #666;
+    cursor: not-allowed;
+    opacity: 0.7;
+}
+
+/*--------------------------------------------------------------
+# HEADER
+--------------------------------------------------------------*/
+header {
+    /* size */
+    padding: 1rem;
+    /* arrangement */
+    display: flex;
+    align-items: center;
+    /* style */
+    background: #003366;
+    color: white;
+}
+
+header .logo {
+    /* size */
+    width: 100px;
+    margin-left: 1rem;
+}
+
+header h1 {
+    /* size */
+    margin: 0px;
+}
+
+header #admin-info,
+header #datetime {
+    /* style */
+    font-size: 18px;
+    font-weight: bolder;
+}
+
+/*--------------------------------------------------------------
+# CONTAINER
+--------------------------------------------------------------*/
+.container {
+    /* size */
+    max-width: 1000px;
+    margin: auto;
+    padding: 1rem;
+    /* style */
+    background: white;
+    border: 1px solid #ccc;
+}
+
+/*--------------------------------------------------------------
+# SECTION
+--------------------------------------------------------------*/
+.section {
+    /* size */
+    margin-top: 2rem;
+    padding: 1rem;
+    /* style */
+    background: #fff3f3;
+    border: 1px solid #ccc;
+}
+
+.section #add-user-form {
+    /* arrangement */
+    display: flex;
+    gap: 5px;
+}
+
+.section #current-term {
+    /* size */
+    height: 30px;
+    /* arrangement */
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.section #current-term p {
+    /* size */
+    width: 150px;
+    margin: 0px;
+}
+
+.section #current-term button {
+    /* size */
+    padding: 5px 10px;
+    /* style */
+    border-radius: 10px;
+}
+
+/*--------------------------------------------------------------
+# TABLE
+--------------------------------------------------------------*/
+table {
+    /* size */
+    width: 100%;
+    margin-top: 1rem;
+    /* style */
+    border-collapse: collapse;
+}
+
+table button {
+    /* size */
+    height: 25px;
+    padding: 0px 15px;
+    /* style */
+    background: #003366;
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+}
+
+table button:hover {
+    /* style */
+    background: #002545;
+}
+
+th,
+td {
+    /* size */
+    padding: 0.5rem;
+    /* style */
+    border: 1px solid #aaa;
+    text-align: center;
+}
+
+/*--------------------------------------------------------------
+# TERM LIST
+--------------------------------------------------------------*/
+#term-list {
+    /* arrangement */
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+#term-list .term-row {
+    /* size */
+    width: 30%;
+    height: 30px;
+    padding: 5px;
+    /* arrangement */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* style */
+    border: 1px solid #aaa;
+    border-radius: 10px;
+}
+
+#term-list .term-row p {
+    /* size */
+    width: 150px;
+    margin: 0px;
+}
+
+#term-list .term-row button {
+    /* size */
+    padding: 5px 10px;
+    margin-right: 2px;
+    /* style */
+    border-radius: 10px;
+}

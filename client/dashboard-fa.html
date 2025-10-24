@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <title>داشبورد - سامانه اطلاعات دانشکده‌فنی</title>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="/css/global.css">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Anton&family=Markazi+Text:wght@400..700&family=Vazirmatn:wght@100..900&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+
+    <!-- Screen Warning -->
+    <div id="screen-warning">
+        برای استفاده از پنل، صفحه را در حالت تمام‌صفحه باز کنید.
+    </div>
+
+    <!-- Info Alert -->
+    <div id="info-alert" class="alert-hidden custom-alert">
+        <div class="alert-box">
+            <p id="info-message"></p>
+            <button onclick="closeInfoAlert()">فهمیدم</button>
+        </div>
+    </div>
+
+    <!-- Timer Alert -->
+    <div id="timer-alert" class="alert-hidden custom-alert">
+        <div class="alert-box">
+            <p id="timer-message"></p>
+        </div>
+    </div>
+
+    <!-- Yes/No Alert -->
+    <div id="yesno-alert" class="alert-hidden custom-alert">
+        <div class="alert-box">
+            <p id="yesno-message"></p>
+            <div class="yesno-buttons">
+                <button onclick="resolveYesNo(true)">بله</button>
+                <button onclick="resolveYesNo(false)">خیر</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Input Alert -->
+    <div id="input-alert" class="custom-alert alert-hidden">
+        <div class="alert-box">
+            <p id="input-message"></p>
+            <input type="text" id="input-field" placeholder="مقدار مورد نظر را وارد کنید...">
+            <div class="alert-buttons">
+                <button onclick="resolveInput(true)">برو</button>
+                <button onclick="resolveInput(false)">بیخیال</button>
+            </div>
+        </div>
+    </div>
+
+    <form id="login-section">
+        <h2>ورود به پنل کارشناس</h2>
+        <input type="text" id="username" placeholder="نام کاربری" required>
+        <input type="password" id="password" placeholder="رمز عبور" required>
+        <select id="role" required>
+            <option value="" disabled selected>انتخاب نقش</option>
+            <option value="expert">کارشناس گروه</option>
+            <option value="admin">مدیرکل</option>
+        </select>
+        <button id="login-btn">ورود</button>
+        <p id="login-error" class="error"></p>
+    </form>
+
+    <script src="/js/login.js"></script>
+    <script src="/js/global.js"></script>
+
+</body>
+
+</html>

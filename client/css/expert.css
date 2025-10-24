@@ -1,0 +1,241 @@
+/*--------------------------------------------------------------
+# HEADER
+--------------------------------------------------------------*/
+header {
+    /* size */
+    padding: 1rem;
+    /* arrangement */
+    display: flex;
+    align-items: center;
+    /* style */
+    background: #003366;
+    color: white;
+}
+
+header .logo {
+    /* size */
+    width: 100px;
+    margin-left: 1rem;
+}
+
+header h1 {
+    /* size */
+    margin: 0px;
+}
+
+header #admin-info,
+header #datetime {
+    /* style */
+    font-size: 18px;
+    font-weight: bolder;
+}
+
+/*--------------------------------------------------------------
+# PANEL COMPONENTS
+--------------------------------------------------------------*/
+#expert-info,
+#program-management,
+#announcements {
+    /* size */
+    margin: 20px;
+    padding: 15px;
+    /* style */
+    background-color: white;
+    border-radius: 5px;
+}
+
+#expert-info p {
+    /* size */
+    margin: 0px;
+}
+
+#program-management #add-program-btn,
+#announcements #add-announcement {
+    /* size */
+    width: 110px;
+    padding: 5px 12px;
+    /* style */
+    background: tomato;
+    color: #f4f4f4;
+    font-size: 14px;
+    font-weight: bolder;
+    border: none;
+    border-radius: 10px;
+}
+
+/*--------------------------------------------------------------
+# TABS
+--------------------------------------------------------------*/
+.tabs {
+    /* size */
+    margin: 10px 0px;
+    /* arrangement */
+    display: flex;
+    justify-content: center;
+    gap: 2px;
+}
+
+.tabs .tab-btn {
+    /* size */
+    width: 120px;
+    padding: 10px;
+    /* style */
+    cursor: pointer;
+    background-color: #e0e0e0;
+    border: none;
+}
+
+.tabs .tab-btn.active {
+    /* style */
+    background-color: #004080;
+    color: white;
+}
+
+.tab-content.active {
+    /* style */
+    display: block;
+}
+
+/*--------------------------------------------------------------
+# TABLE
+--------------------------------------------------------------*/
+.tab-content {
+    /* size */
+    max-height: 400px;
+    /* style */
+    overflow-y: auto;
+    /* position */
+    position: relative;
+}
+
+table {
+    /* size */
+    width: 100%;
+    margin-top: 1rem;
+    /* style */
+    border-collapse: collapse;
+    table-layout: fixed;
+}
+
+thead th {
+    /* style */
+    background-color: #dbe9ff;
+    /* position */
+    position: sticky;
+    top: 0;
+    z-index: 2;
+}
+
+th,
+td {
+    /* size */
+    padding: 0.5rem;
+    /* style */
+    border: 1px solid #aaa;
+    text-align: center;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+table button {
+    /* size */
+    height: 25px;
+    padding: 0px 15px;
+    /* style */
+    background: #003366;
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+}
+
+table button:hover {
+    /* style */
+    background: #002545;
+}
+
+/*--------------------------------------------------------------
+# DIALOG WINDOW
+--------------------------------------------------------------*/
+.dialog {
+    /* size */
+    width: 100%;
+    height: 100%;
+    /* arrangement */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* style */
+    background-color: rgba(0, 0, 0, 0.5);
+    /* position */
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 999;
+}
+
+.dialog.hidden {
+    /* arrangement */
+    display: none;
+}
+
+.dialog .dialog-box {
+    /* size */
+    width: 500px;
+    padding: 20px;
+    /* arrangement */
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    /* style */
+    background: white;
+    border-radius: 6px;
+}
+
+.dialog .dialog-box .title-host,
+.dialog .dialog-box .start-end {
+    /* arrangement */
+    display: flex;
+    flex-direction: row;
+    gap: 5px;
+}
+
+.dialog .dialog-box .title-host #program-group {
+    /* size */
+    width: 20%;
+}
+
+.dialog .dialog-box input,
+.dialog .dialog-box select {
+    /* size */
+    width: 100%;
+    padding: 6px;
+    box-sizing: border-box;
+    /* style */
+    border: 1px solid #e0e0e0;
+    border-radius: 5px;
+}
+
+.dialog .dialog-box p {
+    /* size */
+    margin-bottom: 0px;
+    /* style */
+    font-size: small;
+}
+
+.dialog .dialog-actions {
+    /* size */
+    margin-top: 10px;
+    /* arrangment */
+    display: flex;
+    justify-content: space-between;
+}
+
+.dialog .dialog-actions button {
+    /* size */
+    width: 75px;
+    padding: 5px 10px;
+    /* style */
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}

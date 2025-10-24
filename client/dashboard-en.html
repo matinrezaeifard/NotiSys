@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard - Faculty Announcements System</title>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="/css/global.css">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Anton&family=Markazi+Text:wght@400..700&family=Vazirmatn:wght@100..900&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+
+    <!-- Screen Warning -->
+    <div id="screen-warning">
+        To use this pannel, please open it with wide screen size.
+    </div>
+
+    <!-- Info Alert -->
+    <div id="info-alert" class="alert-hidden custom-alert">
+        <div class="alert-box">
+            <p id="info-message"></p>
+            <button onclick="closeInfoAlert()">Undrestood</button>
+        </div>
+    </div>
+
+    <!-- Timer Alert -->
+    <div id="timer-alert" class="alert-hidden custom-alert">
+        <div class="alert-box">
+            <p id="timer-message"></p>
+        </div>
+    </div>
+
+    <!-- Yes/No Alert -->
+    <div id="yesno-alert" class="alert-hidden custom-alert">
+        <div class="alert-box">
+            <p id="yesno-message"></p>
+            <div class="yesno-buttons">
+                <button onclick="resolveYesNo(true)">Yes</button>
+                <button onclick="resolveYesNo(false)">No</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Input Alert -->
+    <div id="input-alert" class="custom-alert alert-hidden">
+        <div class="alert-box">
+            <p id="input-message"></p>
+            <input type="text" id="input-field" placeholder="Enter your input here...">
+            <div class="alert-buttons">
+                <button onclick="resolveInput(true)">Go</button>
+                <button onclick="resolveInput(false)">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <form id="login-section">
+        <h2>Login to expert pannel</h2>
+        <input type="text" id="username" placeholder="username" required>
+        <input type="password" id="password" placeholder="password" required>
+        <select id="role" required>
+            <option value="" disabled selected>Select Role</option>
+            <option value="expert">Group Expert</option>
+            <option value="admin">Super Admin</option>
+        </select>
+        <button id="login-btn">Login</button>
+        <p id="login-error" class="error"></p>
+    </form>
+
+    <script src="/js/login.js"></script>
+    <script src="/js/global.js"></script>
+
+</body>
+
+</html>

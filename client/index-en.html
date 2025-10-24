@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Main Page - Faculty Announcements System</title>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/global.css">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Anton&family=Markazi+Text:wght@400..700&family=Vazirmatn:wght@100..900&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+    <!-- Screen Warning -->
+    <div id="screen-warning">
+        To use this pannel, please open it with wide screen size.
+    </div>
+
+    <header>
+        <img src="assets/logo.png" alt="University Logo" />
+        <div class="date-time-container">
+            <div id="date"></div>
+            <div id="time"></div>
+        </div>
+    </header>
+
+    <main id="main">
+        <h1 id="page-title">Classes Program</h1>
+        <div class="table-container" style="display: none;">
+            <table id="schedule-table">
+                <thead>
+                    <tr>
+                        <th class="th-25"></th>
+                        <th class="th-175">Title</th>
+                        <th class="th-25">Group</th>
+                        <th class="th-150">Host</th>
+                        <th class="th-50">Start</th>
+                        <th class="th-50">End</th>
+                        <th class="th-150">Place</th>
+                        <th class="th-100">Status</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+        <div id="no-show-screen" style="display: none;">There is no program yet!</div>
+    </main>
+
+    <div id="subtitle-container">
+        <div id="subtitle-text">This is a test subtitle...</div>
+    </div>
+
+    <script src="js/global.js"></script>
+    <script src="js/main.js"></script>
+</body>
+
+</html>
