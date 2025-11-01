@@ -1,4 +1,4 @@
-const texts = {
+const translate = {
   fa: {
     // عمومی
     logoAlt: "لوگو دانشگاه",
@@ -31,6 +31,7 @@ const texts = {
     expertInfo: "مشخصات کارشناس",
     currentTerm: "ترم جاری",
     addProgram: "افزودن برنامه",
+    importProgram: "واردکردن",
     weeklyPrograms: "برنامه‌های هفتگی",
     specialEvents: "رویدادهای ویژه",
     title: "عنوان",
@@ -87,6 +88,7 @@ const texts = {
     expertInfo: "Expert Information",
     currentTerm: "Current Term",
     addProgram: "Add Program",
+    importProgram: "Import",
     weeklyPrograms: "Weekly Programs",
     specialEvents: "Special Events",
     title: "Title",
@@ -112,4 +114,4 @@ const texts = {
   },
 };
 
-module.exports = texts;
+module.exports = translate;

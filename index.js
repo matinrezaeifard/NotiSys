@@ -1,1 +1,459 @@
-const express=require('express'),bodyParser=require('body-parser'),cors=require('cors'),app=express(),path=require('path'),htmlTemplates=require('./utils/htmlTemplates'),{query}=require('./utils/db'),PORT=0xbb8;app['use'](cors()),app['use'](bodyParser['json']()),app['use'](express['static'](path['join'](__dirname,'./client'))),app['delete']('/api/announcements/delete',async(_0x6986a9,_0x10f254)=>{const {id:_0x27aff1}=_0x6986a9['body'];try{const _0x87e77d=await query('DELETE\x20FROM\x20announcements\x20WHERE\x20id\x20=\x20?',[_0x27aff1]);return _0x87e77d['affectedRows']===0x1?_0x10f254['sendStatus'](0xc8):_0x10f254['sendStatus'](0x194);}catch(_0x4987e5){return _0x10f254['sendStatus'](0x1f4);}}),app['post']('/api/announcements/add',async(_0xec0d87,_0x51a97d)=>{const {term_id:_0x189878,group_id:_0x3027a3,message:_0x32ac12,id:_0x469936}=_0xec0d87['body'];try{if(!_0x189878||!_0x3027a3||!_0x469936)return _0x51a97d['sendStatus'](0x190);return await query('INSERT\x20INTO\x20announcements\x20(term_id,\x20group_id,\x20id,\x20message)\x20VALUES\x20(?,\x20?,\x20?,\x20?)',[_0x189878,_0x3027a3,_0x469936,_0x32ac12]),_0x51a97d['sendStatus'](0xc9);}catch(_0x22b6b0){return _0x51a97d['sendStatus'](0x1f4);}}),app['delete']('/api/programs/delete',async(_0x564b1a,_0x456cf8)=>{const {id:_0x39fc54}=_0x564b1a['body'];try{const _0x14b640=await query('DELETE\x20FROM\x20events\x20WHERE\x20id\x20=\x20?',[_0x39fc54]);return _0x14b640['affectedRows']===0x1?_0x456cf8['sendStatus'](0xc8):_0x456cf8['sendStatus'](0x194);}catch(_0x4bd1ea){return _0x456cf8['sendStatus'](0x1f4);}}),app['post']('/api/programs/add',async(_0x5b0bbd,_0x23d701)=>{const {term_id:_0x515190,group_id:_0x5667fb,id:_0x30d0ea,title:_0x12561e,group_number:_0x37357d,host:_0x493cd9,type:_0x3f3e26,day:_0x54da91,start:_0x8ecb59,end:_0x59c813,place:_0x28b7e0}=_0x5b0bbd['body'];try{if(!_0x515190||!_0x5667fb||!_0x30d0ea)return _0x23d701['sendStatus'](0x190);return await query('INSERT\x20INTO\x20events\x20(term_id,\x20group_id,\x20id,\x20title,\x20group_number,\x20host,\x20type,\x20day,\x20start,\x20end,\x20place)\x20VALUES\x20(?,\x20?,\x20?,\x20?,\x20?,\x20?,\x20?,\x20?,\x20?,\x20?,\x20?)',[_0x515190,_0x5667fb,_0x30d0ea,_0x12561e,_0x37357d,_0x493cd9,_0x3f3e26,_0x54da91,_0x8ecb59,_0x59c813,_0x28b7e0]),_0x23d701['sendStatus'](0xc9);}catch(_0x2e3dc4){return _0x23d701['sendStatus'](0x1f4);}}),app['post']('/api/load/schedule',async(_0x12f8ac,_0x2e6305)=>{const {term_id:_0x849c38,group_id:_0x10e078}=_0x12f8ac['body'];try{const _0x4cdcea=await query('SELECT\x20*\x20FROM\x20terms\x20WHERE\x20id\x20=\x20?',[_0x849c38]);_0x4cdcea['length']===0x0&&_0x2e6305['sendStatus'](0x194);const _0x16f3bc={};let _0x387de9,_0x123667,_0x569881;return _0x387de9='SELECT\x20*\x20FROM\x20events\x20WHERE\x20term_id\x20=\x20?',_0x123667='SELECT\x20*\x20FROM\x20announcements\x20WHERE\x20term_id\x20=\x20?',_0x569881=[_0x849c38],_0x10e078!==0x1&&(_0x387de9+='\x20AND\x20group_id\x20=\x20?',_0x123667+='\x20AND\x20group_id\x20=\x20?',_0x569881['push'](_0x10e078)),_0x16f3bc['events']=await query(_0x387de9,_0x569881),_0x16f3bc['announcements']=await query(_0x123667,_0x569881),_0x2e6305['json'](_0x16f3bc);}catch(_0xfb26a){return _0x2e6305['sendStatus'](0x1f4);}}),app['delete']('/api/terms/delete',async(_0x22defa,_0x3d5b4c)=>{const {id:_0x1b4f5f}=_0x22defa['body'];try{const _0x3fc9ed=await query('SELECT\x20*\x20FROM\x20terms\x20WHERE\x20id\x20=\x20?',[_0x1b4f5f]);if(_0x3fc9ed['length']===0x0)return _0x3d5b4c['sendStatus'](0x194);if(_0x3fc9ed[0x0]['is_active']===0x1)return _0x3d5b4c['sendStatus'](0x190);return await query('DELETE\x20FROM\x20terms\x20WHERE\x20id\x20=\x20?',[_0x1b4f5f]),_0x3d5b4c['sendStatus'](0xc8);}catch(_0x5a36af){return _0x3d5b4c['sendStatus'](0x1f4);}}),app['get']('/api/terms/end',async(_0x576d34,_0x528055)=>{try{return await query('UPDATE\x20terms\x20SET\x20is_active\x20=\x200'),_0x528055['sendStatus'](0xc8);}catch(_0x1a4eaa){return _0x528055['sendStatus'](0x1f4);}}),app['post']('/api/terms/activate',async(_0x5ae07c,_0x13ecfc)=>{const {id:_0x352614}=_0x5ae07c['body'];try{return await query('UPDATE\x20terms\x20SET\x20is_active\x20=\x200'),await query('UPDATE\x20terms\x20SET\x20is_active\x20=\x201\x20WHERE\x20id\x20=\x20?',[_0x352614]),_0x13ecfc['sendStatus'](0xc8);}catch(_0x374ca4){return _0x13ecfc['sendStatus'](0x1f4);}}),app['post']('/api/terms/new',async(_0x386c29,_0x3411f4)=>{const {name:_0xbdd329}=_0x386c29['body'];try{if(!_0xbdd329)return _0x3411f4['sendStatus'](0x190);return await query('UPDATE\x20terms\x20SET\x20is_active\x20=\x200'),await query('INSERT\x20INTO\x20terms\x20(name,\x20is_active)\x20VALUES\x20(?,\x20?)',[_0xbdd329,!![]]),_0x3411f4['sendStatus'](0xc9);}catch(_0x2af658){return _0x3411f4['sendStatus'](0x1f4);}}),app['get']('/api/terms',async(_0x10f24d,_0xbff0b2)=>{try{const _0x5bb8c6=await query('SELECT\x20*\x20FROM\x20terms');return _0xbff0b2['json']({'terms':_0x5bb8c6});}catch(_0x5a5835){return _0xbff0b2['sendStatus'](0x1f4);}}),app['delete']('/api/users/del/:username',async(_0x465810,_0x457aae)=>{const _0x194616=_0x465810['params']['username'];try{const _0x578324=await query('DELETE\x20FROM\x20admins\x20WHERE\x20username\x20=\x20?',[_0x194616]);return _0x578324['affectedRows']===0x1?_0x457aae['sendStatus'](0xc8):_0x457aae['sendStatus'](0x194);}catch(_0x388768){return _0x457aae['sendStatus'](0x1f4);}}),app['put']('/api/users/update/:username/password',async(_0xffb37b,_0x42d03a)=>{const {password:_0x713841}=_0xffb37b['body'],_0x5c064e=_0xffb37b['params']['username'];try{const _0x547044=await query('UPDATE\x20admins\x20SET\x20password\x20=\x20?\x20WHERE\x20username\x20=\x20?',[_0x713841,_0x5c064e]);return _0x547044['affectedRows']===0x1?_0x42d03a['sendStatus'](0xc8):_0x42d03a['sendStatus'](0x194);}catch(_0x3eb73e){return _0x42d03a['sendStatus'](0x1f4);}}),app['post']('/api/users/add',async(_0x4648d4,_0x5cd107)=>{const {username:_0x331ab4,password:_0x2ffee0,group:_0x1569e1}=_0x4648d4['body'];try{if(!_0x331ab4||!_0x2ffee0||!_0x1569e1)return _0x5cd107['sendStatus'](0x190);return await query('INSERT\x20INTO\x20admins\x20(username,\x20password,\x20group_id)\x20VALUES\x20(?,\x20?,\x20?)',[_0x331ab4,_0x2ffee0,_0x1569e1]),_0x5cd107['sendStatus'](0xc9);}catch(_0x297a79){return _0x297a79['code']==='ER_DUP_ENTRY'?_0x5cd107['sendStatus'](0x199):_0x5cd107['sendStatus'](0x1f4);}}),app['get']('/api/users',async(_0x3277fc,_0x579099)=>{try{const _0x44a2c3=await query('SELECT\x20*\x20FROM\x20admins');return _0x579099['json']({'users':_0x44a2c3});}catch(_0x199a9f){return _0x579099['sendStatus'](0x1f4);}}),app['get']('/api/groups',async(_0x55b213,_0x52edad)=>{try{const _0x2f9936=await query('SELECT\x20*\x20FROM\x20groups');return _0x52edad['json']({'groups':_0x2f9936});}catch(_0xe99cb2){return _0x52edad['sendStatus'](0x1f4);}}),app['post']('/api/login',async(_0xe8fc76,_0x6426f5)=>{const {username:_0x308608,password:_0xb4b342,role:_0x2e4341,lang:_0x3908aa}=_0xe8fc76['body'];try{let _0x1e4081;if(_0x2e4341==='expert')_0x1e4081='admins';else{if(_0x2e4341==='admin')_0x1e4081='super_admins';else return _0x6426f5['sendStatus'](0x190);}const _0x412af7=await query('SELECT\x20*\x20FROM\x20'+_0x1e4081+'\x20WHERE\x20username\x20=\x20?\x20AND\x20password\x20=\x20?',[_0x308608,_0xb4b342]);if(_0x412af7['length']===0x0)return _0x6426f5['sendStatus'](0x191);let _0x45153d;return _0x2e4341==='expert'?_0x45153d=htmlTemplates['expertDashboard'](_0x308608,_0x412af7[0x0]['group_id'],_0x3908aa):_0x45153d=htmlTemplates['adminDashboard'](_0x3908aa),_0x6426f5['send'](_0x45153d);}catch(_0x201ad2){return _0x6426f5['sendStatus'](0x1f4);}}),app['use'](express['static'](path['join'](__dirname,'client'))),app['get']('/',(_0x37fd93,_0x14e8bd)=>{return _0x14e8bd['sendFile'](path['join'](__dirname,'./client/index-fa.html'));}),app['get']('/:root',(_0x96fe0b,_0x12f361)=>{const _0x5a4659=_0x96fe0b['params']['root'];if(_0x5a4659==='dashboard')return _0x12f361['sendFile'](path['join'](__dirname,'./client/dashboard-fa.html'));if(_0x5a4659==='fa'||_0x5a4659==='en'){const _0x4d7418=_0x5a4659==='en'?'en':'fa';return _0x12f361['sendFile'](path['join'](__dirname,'./client/index-'+_0x4d7418+'.html'));}return _0x12f361['sendStatus'](0x194);}),app['get']('/dashboard/:lang',(_0x166fab,_0x2f4090)=>{const _0x2a3b26=_0x166fab['params']['lang']==='en'?'en':'fa';return _0x2f4090['sendFile'](path['join'](__dirname,'./client/dashboard-'+_0x2a3b26+'.html'));}),app['listen'](PORT,()=>{console['log']('✅\x20Server\x20running\x20on\x20port:\x20'+PORT);});
+const express = require('express');
+const cors = require('cors');
+const multer = require("multer");
+const bodyParser = require('body-parser');
+const app = express();
+const path = require('path');
+const fs = require('fs');
+require('dotenv').config();
+
+const { importExcel } = require("./utils/importExcel");
+const htmlTemplates = require('./utils/htmlTemplates');
+const { query } = require('./utils/db');
+
+const PORT = 3000;
+const upload = multer();
+const { LANG } = process.env;
+
+app.use(cors());
+app.use(bodyParser.json());
+app.use(express.static(path.join(__dirname, "./client")));
+
+/**
+ * IMPORT SECTION
+ */
+app.post("/api/import", upload.single("file"), async (req, res) => {
+    const { term_id, group_id } = req.body;
+
+    try {
+        await importExcel(req.file.buffer, term_id, group_id);
+        return res.sendStatus(200);
+
+    } catch (err) {
+        console.log(err);
+        return res.sendStatus(500);
+    }
+});
+
+/**
+ * ANNOUNCEMENTS SECTION
+ */
+app.delete('/api/announcements/delete', async (req, res) => {
+    const { id } = req.body;
+
+    try {
+        const result = await query(
+            'DELETE FROM announcements WHERE id = ?',
+            [id]
+        );
+
+        if (result.affectedRows === 1) {
+            return res.sendStatus(200);
+        } else {
+            return res.sendStatus(404);
+        }
+
+    } catch (err) {
+        return res.sendStatus(500);
+    }
+});
+
+app.post('/api/announcements/add', async (req, res) => {
+    const { term_id, group_id, message, id } = req.body;
+
+    try {
+        if (!term_id || !group_id || !id) return res.sendStatus(400);
+
+        await query(
+            'INSERT INTO announcements (term_id, group_id, id, message) VALUES (?, ?, ?, ?)',
+            [term_id, group_id, id, message]
+        );
+
+        return res.sendStatus(201);
+
+    } catch (err) {
+        return res.sendStatus(500);
+    }
+});
+
+/**
+ * PROGRAMS SECTION
+ */
+app.delete("/api/programs/delete", async (req, res) => {
+    const { id } = req.body;
+
+    try {
+        const result = await query(
+            'DELETE FROM events WHERE id = ?',
+            [id]
+        );
+
+        if (result.affectedRows === 1) {
+            return res.sendStatus(200);
+        } else {
+            return res.sendStatus(404);
+        }
+
+    } catch (err) {
+        return res.sendStatus(500);
+    }
+});
+
+app.post("/api/programs/add", async (req, res) => {
+    const { term_id, group_id, id, title, group_number, host, type, day, start, end, place } = req.body;
+
+    try {
+        // Invalid (null) values for term and group
+        if (!term_id || !group_id || !id) return res.sendStatus(400);
+
+        await query(
+            'INSERT INTO events (term_id, group_id, id, title, group_number, host, type, day, start, end, place) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
+            [term_id, group_id, id, title, group_number, host, type, day, start, end, place]
+        );
+
+        // Send response to client
+        return res.sendStatus(201);
+
+    } catch (err) {
+        return res.sendStatus(500);
+    }
+});
+
+/**
+ * LOAD SECTION
+ */
+app.post("/api/load/schedule", async (req, res) => {
+    const { term_id, group_id } = req.body;
+
+    try {
+        const rows = await query(
+            'SELECT * FROM terms WHERE id = ?',
+            [term_id]
+        );
+        if (rows.length === 0) {
+            res.sendStatus(404);
+        }
+
+        const result = {}
+
+        // Init query
+        let sql_events, sql_ann, params;
+        sql_events = 'SELECT * FROM events WHERE term_id = ?';
+        sql_ann = 'SELECT * FROM announcements WHERE term_id = ?';
+        params = [term_id];
+        if (group_id !== 1) {
+            sql_events += ' AND group_id = ?';
+            sql_ann += ' AND group_id = ?';
+            params.push(group_id);
+        }
+
+        // Db query
+        result.events = await query(sql_events, params);
+        result.announcements = await query(sql_ann, params);
+
+        // Send response to client
+        return res.json(result);
+
+    } catch (err) {
+        return res.sendStatus(500);
+    }
+});
+
+/**
+ * TERM SECTION
+ */
+app.delete('/api/terms/delete', async (req, res) => {
+    const { id } = req.body;
+
+    try {
+        const rows = await query(
+            'SELECT * FROM terms WHERE id = ?',
+            [id]
+        );
+        if (rows.length === 0) {
+            return res.sendStatus(404);
+        }
+
+        if (rows[0].is_active === 1) return res.sendStatus(400);
+
+        await query(
+            'DELETE FROM terms WHERE id = ?',
+            [id]
+        );
+
+        return res.sendStatus(200);
+
+    } catch (err) {
+        return res.sendStatus(500);
+    }
+});
+
+app.get('/api/terms/end', async (req, res) => {
+    try {
+        await query('UPDATE terms SET is_active = 0');
+
+        // Send final response to client
+        return res.sendStatus(200);
+
+    } catch (err) {
+        return res.sendStatus(500);
+    }
+});
+
+app.post('/api/terms/activate', async (req, res) => {
+    const { id } = req.body;
+
+    try {
+        await query('UPDATE terms SET is_active = 0');
+
+        await query(
+            'UPDATE terms SET is_active = 1 WHERE id = ?',
+            [id]
+        );
+
+        return res.sendStatus(200);
+
+    } catch (err) {
+        return res.sendStatus(500);
+    }
+});
+
+app.post('/api/terms/new', async (req, res) => {
+    const { name } = req.body;
+
+    try {
+        // Invalid (null) input
+        if (!name) return res.sendStatus(400);
+
+        await query('UPDATE terms SET is_active = 0');
+
+        await query(
+            'INSERT INTO terms (name, is_active) VALUES (?, ?)',
+            [name, true]
+        );
+
+        // Send final response to client
+        return res.sendStatus(201);
+
+    } catch (err) {
+        return res.sendStatus(500);
+    }
+});
+
+app.get('/api/terms', async (req, res) => {
+    try {
+        // Read db
+        const terms = await query('SELECT * FROM terms');
+
+        // Send final response to client
+        return res.json({ terms });
+
+    } catch (err) {
+        return res.sendStatus(500);
+    }
+});
+
+/**
+ * USERS SECTION
+ */
+app.delete('/api/users/del/:username', async (req, res) => {
+    const username = req.params.username;
+
+    try {
+        const result = await query(
+            'DELETE FROM admins WHERE username = ?',
+            [username]
+        );
+
+        if (result.affectedRows === 1) {
+            return res.sendStatus(200);
+        } else {
+            return res.sendStatus(404);
+        }
+
+    } catch (err) {
+        return res.sendStatus(500);
+    }
+});
+
+app.put('/api/users/update/:username/password', async (req, res) => {
+    const { password } = req.body;
+    const username = req.params.username;
+
+    try {
+        // Overwrite password and update db
+        const result = await query(
+            'UPDATE admins SET password = ? WHERE username = ?',
+            [password, username]
+        );
+
+        if (result.affectedRows === 1) {
+            return res.sendStatus(200);
+        } else {
+            return res.sendStatus(404);
+        }
+
+    } catch (err) {
+        return res.sendStatus(500);
+    }
+});
+
+app.post('/api/users/add', async (req, res) => {
+    const { username, password, group } = req.body;
+
+    try {
+        // Invalid (null) inputs
+        if (!username || !password || !group) return res.sendStatus(400);
+
+        await query(
+            'INSERT INTO admins (username, password, group_id) VALUES (?, ?, ?)',
+            [username, password, group]
+        );
+
+        // Send final response to client
+        return res.sendStatus(201);
+
+    } catch (err) {
+        if (err.code === 'ER_DUP_ENTRY') {
+            return res.sendStatus(409);
+        } else {
+            return res.sendStatus(500);
+        }
+    }
+});
+
+app.get('/api/users', async (req, res) => {
+    try {
+        // Read db
+        const users = await query('SELECT * FROM admins');
+
+        // Send final response to client
+        return res.json({ users });
+
+    } catch (err) {
+        return res.sendStatus(500);
+    }
+});
+
+/**
+ * GROUPS SECTION
+ */
+app.get('/api/groups', async (req, res) => {
+    try {
+        // Read db
+        const groups = await query('SELECT * FROM groups');
+
+        // Send final response to client
+        return res.json({ groups });
+
+    } catch (err) {
+        return res.sendStatus(500);
+    }
+});
+
+/**
+ * LOGIN SECTION
+ */
+app.post('/api/login', async (req, res) => {
+    const { username, password, role, lang } = req.body;
+
+    try {
+        // Select table by the role
+        let tableName;
+        if (role === "expert") {
+            tableName = 'admins';
+        } else if (role === "admin") {
+            tableName = 'super_admins';
+        } else {
+            // Invalid role
+            return res.sendStatus(400);
+        }
+
+        // Get user
+        const users = await query(
+            `SELECT * FROM ${tableName} WHERE username = ? AND password = ?`,
+            [username, password]
+        );
+
+        // Check user
+        if (users.length === 0) {
+            return res.sendStatus(401);
+        }
+
+        let html;
+        if (role === "expert") {
+            html = htmlTemplates.expertDashboard(username, users[0].group_id, lang);
+        } else {
+            html = htmlTemplates.adminDashboard(lang);
+        }
+
+        // Successful login
+        return res.send(html);
+
+    } catch (err) {
+        return res.sendStatus(500);
+    }
+});
+
+/**
+ * SETUP SECTION
+ */
+app.post('/api/setup', async (req, res) => {
+    const { adminData, groups, css } = req.body;
+
+    try {
+        await query(
+            'INSERT INTO super_admins (username, password) VALUES (?, ?)',
+            [adminData.username, adminData.password]
+        );
+
+        for (const g of groups) {
+            await query(
+                'INSERT INTO groups (name) VALUES (?)',
+                [g]
+            );
+        }
+
+        const cssPath = path.join(__dirname, 'client', 'css', 'color.css');
+        fs.writeFileSync(cssPath, css, 'utf-8');
+
+        return res.sendStatus(200);
+
+    } catch (err) {
+        console.error(err);
+        return res.sendStatus(500);
+    }
+});
+
+/**
+ * PAGE NAVIGATION
+ */
+app.use(express.static(path.join(__dirname, 'client')));
+
+function sendHTML(res, page, lang = LANG) {
+    const safeLang = lang === "en" ? "en" : "fa";
+    return res.sendFile(path.join(__dirname, `./client/${page}-${safeLang}.html`));
+}
+
+app.get(["/", "/:root", "/dashboard/:root"], async (req, res) => {
+    const groups = await query("SELECT * FROM groups");
+    if (groups.length === 0) {
+        return res.sendFile(path.join(__dirname, "./client/setup.html"));
+    }
+
+    const { root } = req.params || {};
+
+    if (!root) return sendHTML(res, "index");
+    if (root === "dashboard") return sendHTML(res, "dashboard");
+    if (req.path.startsWith("/dashboard")) return sendHTML(res, "dashboard", root ? root : LANG);
+    if (root === "fa" || root === "en") return sendHTML(res, "index", root);
+
+    return res.sendStatus(404);
+});
+
+/**
+ * START SERVER
+ */
+app.listen(PORT, () => {
+    console.log(`✅ Server running on port: ${PORT}`);
+});

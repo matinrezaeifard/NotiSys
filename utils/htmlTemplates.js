@@ -1,8 +1,7 @@
-// utils/htmlTemplates.js
-const texts = require('./lang');
+const translate = require('./lang');
 
 function adminDashboard(lang = 'fa') {
-    const t = texts[lang];
+    const t = translate[lang];
     return `
         <div class="container" id="main-container">
             <header>
@@ -52,12 +51,11 @@ function adminDashboard(lang = 'fa') {
         <!-- CSS AND JS -->
         <link rel="stylesheet" href="/css/admin.css">
         <script src="/js/admin.js"></script>
-        <script src="/js/global.js"></script>
     `;
 }
 
 function expertDashboard(username, group, lang = 'fa') {
-    const t = texts[lang];
+    const t = translate[lang];
 
     return `
         <div id="expert-panel">
@@ -79,6 +77,7 @@ function expertDashboard(username, group, lang = 'fa') {
             <section id="program-management">
                 <h3>${t.currentTerm}: <span id="term-name"></span></h3>
                 <button id="add-program-btn">${t.addProgram}</button>
+                <button id="import-program-btn">${t.importProgram}</button>
                 <div class="tabs">
                     <button class="tab-btn active" data-tab="weekly">${t.weeklyPrograms}</button>
                     <button class="tab-btn" data-tab="one-time">${t.specialEvents}</button>
@@ -158,6 +157,16 @@ function expertDashboard(username, group, lang = 'fa') {
                 </form>
             </div>
 
+            <div id="import-dialog" class="dialog hidden">
+                <form class="dialog-box" id="importForm">
+                    <input type="file" id="excelFile" accept=".xlsx" required>
+                    <div class="dialog-actions">
+                        <button type="submit">${t.submit}</button>
+                        <button type="button" onclick="closeImportDialog()">${t.cancel}</button>
+                    </div>
+                </form>
+            </div>
+
             <section id="announcements">
                 <h3>${t.announcements}</h3>
                 <button id="add-announcement">${t.addAnnouncement}</button>
@@ -165,7 +174,7 @@ function expertDashboard(username, group, lang = 'fa') {
                     <thead>
                         <tr>
                             <th class="th-350">${t.announcementText}</th>
-                            <th class="th-50">${t.delete}</th>
+                            <th class="th-75">${t.delete}</th>
                         </tr>
                     </thead>
                     <tbody></tbody>
@@ -187,7 +196,6 @@ function expertDashboard(username, group, lang = 'fa') {
         <!-- CSS AND JS -->
         <link rel="stylesheet" href="/css/expert.css">
         <script src="/js/expert.js"></script>
-        <script src="/js/global.js"></script>
     `;
 }
 

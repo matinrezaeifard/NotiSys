@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Setup Wizard</title>
+    <link rel="stylesheet" href="/css/font.css">
+    <style>
+        :root {
+            --primary: #6366f1;
+            --primary-light: #818cf8;
+            --secondary: #f59e0b;
+            --text: #1e293b;
+            --bg: #f8fafc;
+            --card-bg: #ffffff;
+            --error: #ef4444;
+            --success: #10b981;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            transition: all 0.2s ease;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            font-family: sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            line-height: 1.5;
+        }
+
+        body[dir="rtl"] {
+            font-family: 'Vazirmatn', sans-serif;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem;
+            width: 100%;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        h1 {
+            font-size: 1.75rem;
+            font-weight: 600;
+            color: var(--primary);
+        }
+
+        .language-toggle {
+            font-family: 'Vazirmatn', sans-serif;
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .card {
+            background-color: var(--card-bg);
+            border-radius: 1rem;
+            padding: 2rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            margin-bottom: 2rem;
+        }
+
+        h2 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            color: var(--primary);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        input,
+        select {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #e2e8f0;
+            border-radius: 0.5rem;
+            font-size: 1rem;
+        }
+
+        input:focus,
+        select:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.2);
+        }
+
+        .btn {
+            font-family: 'Vazirmatn', sans-serif;
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            font-weight: 500;
+            font-size: 1rem;
+        }
+
+        .btn:hover {
+            background-color: var(--primary-light);
+        }
+
+        .btn-secondary {
+            background-color: var(--secondary);
+        }
+
+        .btn-secondary:hover {
+            background-color: #f97316;
+        }
+
+        .error-message {
+            color: var(--error);
+            font-size: 0.875rem;
+            margin-top: 0.25rem;
+            display: none;
+        }
+
+        .group-container {
+            margin-top: 1rem;
+        }
+
+        .group-item {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            align-items: center;
+        }
+
+        .group-item input {
+            flex: 1;
+        }
+
+        .group-item select {
+            width: 120px;
+        }
+
+        .remove-group {
+            background-color: var(--error);
+            color: white;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+
+        .add-group {
+            margin-top: 1rem;
+        }
+
+        #finish-btn {
+            width: 100%;
+            margin-top: 2rem;
+        }
+
+        .success-message {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+
+            background-color: rgba(0, 128, 0, 0.9);
+            color: white;
+
+            align-items: center;
+            justify-content: center;
+
+            font-weight: 600;
+            font-size: 1.5rem;
+            border-radius: 0;
+            z-index: 9999;
+            text-align: center;
+            padding: 2rem;
+        }
+
+        canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 100;
+            display: none;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+
+            .card {
+                padding: 1.5rem;
+            }
+
+            .group-item {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .group-item select {
+                width: 100%;
+            }
+        }
+
+        /* Color options for groups */
+        .color-option[value="red"] {
+            background-color: #ef4444;
+            color: white;
+        }
+
+        .color-option[value="blue"] {
+            background-color: #3b82f6;
+            color: white;
+        }
+
+        .color-option[value="green"] {
+            background-color: #10b981;
+            color: white;
+        }
+
+        .color-option[value="yellow"] {
+            background-color: #f59e0b;
+            color: white;
+        }
+
+        .color-option[value="purple"] {
+            background-color: #8b5cf6;
+            color: white;
+        }
+    </style>
+</head>
+
+<body dir="ltr">
+    <canvas id="confetti-canvas"></canvas>
+    <div class="container">
+        <header>
+            <h1 id="title">Setup Wizard</h1>
+            <button class="language-toggle" id="language-toggle">
+                <span id="language-text">فارسی</span>
+            </button>
+        </header>
+
+        <div class="card" id="admin-section">
+            <h2 id="admin-title">Create Super Admin Account</h2>
+            <div class="form-group">
+                <label for="username" id="username-label">Username</label>
+                <input type="text" id="username" placeholder="Enter username">
+                <div class="error-message" id="username-error"></div>
+            </div>
+            <div class="form-group">
+                <label for="password" id="password-label">Password</label>
+                <input type="password" id="password" placeholder="Enter password">
+                <div class="error-message" id="password-error"></div>
+            </div>
+        </div>
+
+        <div class="card" id="groups-section">
+            <h2 id="groups-title">Add Groups</h2>
+            <div class="group-container" id="groups-container">
+                <div class="group-item">
+                    <input type="text" placeholder="Group name" class="group-name">
+                    <select class="group-color">
+                        <option value="red" class="color-option">Red</option>
+                        <option value="blue" class="color-option">Blue</option>
+                        <option value="green" class="color-option">Green</option>
+                        <option value="yellow" class="color-option">Yellow</option>
+                        <option value="purple" class="color-option">Purple</option>
+                        <option value="gray" class="color-option">Gray</option>
+                    </select>
+                    <button class="remove-group" disabled>×</button>
+                </div>
+            </div>
+            <button class="btn btn-secondary add-group" id="add-group">Add Group</button>
+        </div>
+
+        <button class="btn" id="finish-btn">Finish Setup</button>
+
+        <div class="success-message" id="success-message">
+            Setup completed successfully 🎉
+        </div>
+    </div>
+
+    <script src="/js/global.js"></script>
+    <script>
+        // Language management
+        const translations = {
+            en: {
+                title: "Setup Wizard",
+                languageText: "فارسی",
+                adminTitle: "Create Super Admin Account",
+                usernameLabel: "Username",
+                usernamePlaceholder: "Enter username",
+                passwordLabel: "Password",
+                passwordPlaceholder: "Enter password",
+                groupsTitle: "Add Groups",
+                groupPlaceholder: "Group name",
+                addGroup: "Add Group",
+                finishBtn: "Finish Setup",
+                successMessage: "Setup completed successfully 🎉",
+                usernameError: "Username is required",
+                passwordError: "Password is required",
+                groupNameError: "Group name is required",
+                maxGroupsError: "Maximum 8 groups allowed"
+            },
+            fa: {
+                title: "رابط راه‌اندازی",
+                languageText: "English",
+                adminTitle: "ایجاد حساب مدیرکل",
+                usernameLabel: "نام کاربری",
+                usernamePlaceholder: "نام کاربری را وارد کنید",
+                passwordLabel: "رمز عبور",
+                passwordPlaceholder: "رمز عبور را وارد کنید",
+                groupsTitle: "اضافه کردن گروه‌ها",
+                groupPlaceholder: "نام گروه",
+                addGroup: "اضافه کردن گروه",
+                finishBtn: "اتمام راه‌اندازی",
+                successMessage: "پیکربندی با موفقیت انجام شد 🎉",
+                usernameError: "نام کاربری الزامی است",
+                passwordError: "رمز عبور الزامی است",
+                groupNameError: "نام گروه الزامی است",
+                maxGroupsError: "حداکثر ۸ گروه مجاز است"
+            }
+        };
+
+        let currentLanguage = 'en';
+
+        // DOM elements
+        const languageToggle = document.getElementById('language-toggle');
+        const languageText = document.getElementById('language-text');
+        const title = document.getElementById('title');
+        const adminTitle = document.getElementById('admin-title');
+        const usernameLabel = document.getElementById('username-label');
+        const passwordLabel = document.getElementById('password-label');
+        const usernameInput = document.getElementById('username');
+        const passwordInput = document.getElementById('password');
+        const usernameError = document.getElementById('username-error');
+        const passwordError = document.getElementById('password-error');
+        const groupsTitle = document.getElementById('groups-title');
+        const groupNames = document.querySelectorAll('.group-name');
+        const addGroupBtn = document.getElementById('add-group');
+        const groupsContainer = document.getElementById('groups-container');
+        const finishBtn = document.getElementById('finish-btn');
+        const successMessage = document.getElementById('success-message');
+        const confettiCanvas = document.getElementById('confetti-canvas');
+
+        // Initialize translations
+        function updateTranslations() {
+            document.body.dir = currentLanguage === 'fa' ? 'rtl' : 'ltr';
+            const t = translations[currentLanguage];
+
+            title.textContent = t.title;
+            languageText.textContent = t.languageText;
+            adminTitle.textContent = t.adminTitle;
+            usernameLabel.textContent = t.usernameLabel;
+            usernameInput.placeholder = t.usernamePlaceholder;
+            passwordLabel.textContent = t.passwordLabel;
+            passwordInput.placeholder = t.passwordPlaceholder;
+            groupsTitle.textContent = t.groupsTitle;
+            groupNames.forEach(el => el.placeholder = t.groupPlaceholder);
+            addGroupBtn.textContent = t.addGroup;
+            finishBtn.textContent = t.finishBtn;
+            successMessage.textContent = t.successMessage;
+        }
+
+        // Toggle language
+        languageToggle.addEventListener('click', () => {
+            currentLanguage = currentLanguage === 'en' ? 'fa' : 'en';
+            updateTranslations();
+        });
+
+        // Group management
+        let groupCount = 1;
+
+        addGroupBtn.addEventListener('click', () => {
+            if (groupCount >= 8) {
+                alert(translations[currentLanguage].maxGroupsError);
+                return;
+            }
+
+            groupCount++;
+
+            const newGroup = document.createElement('div');
+            newGroup.className = 'group-item';
+            newGroup.innerHTML = `
+                <input type="text" placeholder="${translations[currentLanguage].groupPlaceholder}" class="group-name">
+                <select class="group-color">
+                    <option value="red" class="color-option">Red</option>
+                    <option value="blue" class="color-option">Blue</option>
+                    <option value="green" class="color-option">Green</option>
+                    <option value="yellow" class="color-option">Yellow</option>
+                    <option value="purple" class="color-option">Purple</option>
+                    <option value="gray" class="color-option">Gray</option>
+                </select>
+                <button class="remove-group">×</button>
+            `;
+
+            groupsContainer.appendChild(newGroup);
+
+            // Enable remove button on the first group if we have more than one
+            if (groupCount > 1) {
+                document.querySelectorAll('.remove-group').forEach(btn => {
+                    btn.disabled = false;
+                });
+            }
+        });
+
+        // Remove group
+        groupsContainer.addEventListener('click', (e) => {
+            if (e.target.classList.contains('remove-group')) {
+                if (groupCount <= 1) return;
+
+                e.target.parentElement.remove();
+                groupCount--;
+
+                // Disable remove button if only one group left
+                if (groupCount === 1) {
+                    document.querySelectorAll('.remove-group').forEach(btn => {
+                        btn.disabled = true;
+                    });
+                }
+            }
+        });
+
+        // Form validation
+        function validateForm() {
+            let isValid = true;
+            const t = translations[currentLanguage];
+
+            // Validate username
+            if (!usernameInput.value.trim()) {
+                usernameError.textContent = t.usernameError;
+                usernameError.style.display = 'block';
+                isValid = false;
+            } else {
+                usernameError.style.display = 'none';
+            }
+
+            // Validate password
+            if (!passwordInput.value.trim()) {
+                passwordError.textContent = t.passwordError;
+                passwordError.style.display = 'block';
+                isValid = false;
+            } else {
+                passwordError.style.display = 'none';
+            }
+
+            // Validate group names
+            const groupInputs = document.querySelectorAll('.group-name');
+            groupInputs.forEach(input => {
+                if (!input.value.trim()) {
+                    input.style.borderColor = 'var(--error)';
+                    isValid = false;
+                } else {
+                    input.style.borderColor = '#e2e8f0';
+                }
+            });
+
+            return isValid;
+        }
+
+        // Generate CSS
+        function generateGroupCSS() {
+            const groupItems = document.querySelectorAll('.group-item');
+            let css = '';
+
+            groupItems.forEach((item, index) => {
+                const color = item.querySelector('.group-color').value;
+                const tColor = getTextColor(color);
+                const bColor = getBackgroundColor(color);
+                css += `.remaining-${index} {\n  color: ${tColor[0]};\n  background: ${bColor[0]};\n}\n\n`;
+                css += `.in-progress-${index} {\n  color: ${tColor[1]};\n  background: ${bColor[1]};\n}\n\n`;
+            });
+
+            return css;
+        }
+
+        function getTextColor(color) {
+            const colors = {
+                red: ['oklch(25.8% 0.092 26.042)', 'oklch(44.4% 0.177 26.899)'],
+                blue: ['oklch(30.2% 0.056 229.695)', 'oklch(45% 0.085 224.283)'],
+                green: ['oklch(26.6% 0.065 152.934)', 'oklch(44.8% 0.119 151.328)'],
+                yellow: ['oklch(28.6% 0.066 53.813)', 'oklch(47.6% 0.114 61.907)'],
+                purple: ['oklch(28.3% 0.141 291.089)', 'oklch(43.2% 0.232 292.759)'],
+                gray: ['oklch(14.5% 0 0)', 'oklch(26.8% 0.007 34.298)']
+            };
+            return colors[color] || '#1e293b';
+        }
+
+        function getBackgroundColor(color) {
+            const colors = {
+                red: ['oklch(70.4% 0.191 22.216)', 'oklch(88.5% 0.062 18.334)'],
+                blue: ['oklch(78.9% 0.154 211.53)', 'oklch(91.7% 0.08 205.041)'],
+                green: ['oklch(79.2% 0.209 151.711)', 'oklch(92.5% 0.084 155.995)'],
+                yellow: ['oklch(85.2% 0.199 91.936)', 'oklch(94.5% 0.129 101.54)'],
+                purple: ['oklch(70.2% 0.183 293.541)', 'oklch(89.4% 0.057 293.283)'],
+                gray: ['oklch(70.8% 0 0)', 'oklch(92.2% 0 0)']
+            };
+            return colors[color] || '#f8fafc';
+        }
+
+        // Finish setup
+        finishBtn.addEventListener('click', async () => {
+            if (!validateForm()) return;
+
+            // Collect data
+            const adminData = {
+                username: usernameInput.value.trim(),
+                password: passwordInput.value.trim()
+            };
+
+            const groupsData = [];
+            document.querySelectorAll('.group-item').forEach(item => {
+                groupsData.push(item.querySelector('.group-name').value.trim());
+            });
+
+            // Generate CSS
+            const generatedCSS = generateGroupCSS();
+
+            try {
+                const res = await fetch(`/api/setup`, {
+                    method: "POST",
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ adminData, groups: groupsData, css: generatedCSS })
+                });
+
+                // Check the response
+                if (!res.ok) throw new Error(translate[lang].serverResponseError);
+
+                showSuccessAnimation();
+
+            } catch (err) {
+                // Log error
+                console.error("خطا در اتصال به سرور: ", err);
+                showInfoAlert(translate[lang].connectionFailed);
+            }
+        });
+
+        // Confetti animation
+        function showSuccessAnimation() {
+            successMessage.style.display = 'flex';
+            confettiCanvas.style.display = 'block';
+
+            const canvas = confettiCanvas;
+            const ctx = canvas.getContext('2d');
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+
+            const particles = [];
+            const colors = ['#ff0000', '#00ff00', '#0000ff', '#ffff00', '#ff00ff', '#00ffff', '#ffffff'];
+
+            // Create particles
+            for (let i = 0; i < 150; i++) {
+                particles.push({
+                    x: Math.random() * canvas.width,
+                    y: Math.random() * canvas.height - canvas.height,
+                    radius: Math.random() * 4 + 2,
+                    color: colors[Math.floor(Math.random() * colors.length)],
+                    speed: Math.random() * 3 + 2,
+                    angle: Math.random() * Math.PI * 2,
+                    rotation: Math.random() * 0.2 - 0.1,
+                    rotationAngle: Math.random() * Math.PI * 2
+                });
+            }
+
+            // Animate
+            function animate() {
+                requestAnimationFrame(animate);
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+                particles.forEach(particle => {
+                    ctx.save();
+                    ctx.translate(particle.x, particle.y);
+                    ctx.rotate(particle.rotationAngle);
+
+                    ctx.fillStyle = particle.color;
+                    ctx.beginPath();
+                    ctx.arc(0, 0, particle.radius, 0, Math.PI * 2);
+                    ctx.fill();
+
+                    ctx.restore();
+
+                    particle.y += particle.speed;
+                    particle.rotationAngle += particle.rotation;
+
+                    if (particle.y > canvas.height) {
+                        particle.y = 0 - particle.radius;
+                        particle.x = Math.random() * canvas.width;
+                    }
+                });
+            }
+
+            animate();
+
+            // Hide after 3 seconds
+            setTimeout(() => {
+                confettiCanvas.style.display = 'none';
+            }, 3000);
+        }
+
+        // Initialize
+        updateTranslations();
+    </script>
+</body>
+
+</html>

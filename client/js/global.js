@@ -1,1 +1,269 @@
-const warning=document['getElementById']('screen-warning'),container=document['getElementById']('main-container');function checkScreen(){window['innerWidth']<0x3e8?warning['style']['display']='flex':warning['style']['display']='none';}checkScreen(),window['addEventListener']('resize',checkScreen);function showInfoAlert(message){document['getElementById']('info-message')['textContent']=message,document['getElementById']('info-alert')['classList']['remove']('alert-hidden');}function closeInfoAlert(){document['getElementById']('info-alert')['classList']['add']('alert-hidden');}function showTimerAlert(message,duration=0x1388){document['getElementById']('timer-message')['textContent']=message;const el=document['getElementById']('timer-alert');el['classList']['remove']('alert-hidden'),setTimeout(()=>{el['classList']['add']('alert-hidden');},duration);}function showYesOrNoAlert(message){return new Promise(resolve=>{document['getElementById']('yesno-message')['textContent']=message,document['getElementById']('yesno-alert')['classList']['remove']('alert-hidden'),window['resolveYesNo']=answer=>{document['getElementById']('yesno-alert')['classList']['add']('alert-hidden'),resolve(answer);};});}function showInputAlert(message){return document['getElementById']('input-message')['textContent']=message,document['getElementById']('input-field')['value']='',document['getElementById']('input-alert')['classList']['remove']('alert-hidden'),window['resolveInput']=confirmed=>{const value=confirmed?document['getElementById']('input-field')['value']['trim']():null;document['getElementById']('input-alert')['classList']['add']('alert-hidden'),window['_inputResolve'](value);},new Promise(resolve=>{window['_inputResolve']=resolve;});}let allGroups;async function loadGroups(){try{const res=await fetch('/api/groups',{'method':'GET'});if(!res['ok'])throw new Error(translate[lang]['serverResponseError']);return res['json']();}catch(err){console['error']('خطا\x20در\x20اتصال\x20به\x20سرور:\x20',err),showInfoAlert(translate[lang]['connectionFailed']);}}let currentTerm=null;async function loadCurrentTerm(){const termName=document['getElementById']('term-name');try{const res=await fetch('/api/terms');if(!res['ok'])throw new Error(translate[lang]['serverResponseError']);const {terms:terms}=await res['json']();currentTerm=terms['find'](d=>d['is_active']===0x1),termName&&(termName['textContent']=currentTerm?.['name']||translate[lang]['noActiveTerm']);}catch(err){termName&&(termName['textContent']=translate[lang]['errorGetTerm']),console['error']('خطا\x20در\x20اتصال\x20به\x20سرور:\x20',err),showInfoAlert(translate[lang]['connectionFailed']);}}async function loadScheduleContent(group){try{const res=await fetch('/api/load/schedule',{'method':'POST','headers':{'Content-Type':'application/json'},'body':JSON['stringify']({'term_id':currentTerm['id'],'group_id':group})});if(!res['ok'])throw new Error(translate[lang]['serverResponseError']);return await res['json']();}catch(err){console['error']('خطا\x20در\x20اتصال\x20به\x20سرور:\x20',err),showInfoAlert(translate[lang]['connectionFailed']);}}const lang=document['documentElement']['lang']||'fa',translate={'fa':{'wrongCredentials':'نام\x20کاربری\x20یا\x20رمز\x20عبور\x20نادرست\x20است!','serverResponseError':'خطا\x20در\x20پاسخ\x20دریافتی\x20از\x20سرور!','connectionError':'خطا\x20در\x20ارتباط\x20با\x20سرور!','connectionFailed':'اتصال\x20به\x20سرور\x20برقرار\x20نشد!','confirmDeleteAnnouncement':'آیا\x20از\x20حذف\x20اطلاعیه\x20مطمئن\x20هستید؟','announcementDeleted':'اطلاعیه\x20باموفقیت\x20حذف\x20شد.','announcementNotFound':'اطلاعیه\x20یافت\x20نشد!','announcementAdded':'اطلاعیه\x20با\x20موفقیت\x20ثبت\x20شد.','confirmDeleteProgram':'آیا\x20از\x20حذف\x20زمان‌بندی\x20مطمئن\x20هستید؟','programDeleted':'برنامه\x20با\x20موفقیت\x20حذف\x20شد.','programNotFound':'برنامه\x20یافت\x20نشد!','programAdded':'برنامه‌ی\x20جدید\x20با\x20موفقیت\x20اضافه\x20شد.','endAfterStart':'زمان\x20پایان\x20حتما\x20باید\x20بعد\x20از\x20زمان\x20شروع\x20باشد!','startTime':'ساعت\x20شروع','endTime':'ساعت\x20پایان','startDate':'تاریخ\x20و\x20ساعت\x20شروع','confirmDeleteUser':'آیا\x20از\x20حذف\x20کاربر\x20مطمئن\x20هستید؟','userDeleted':'حساب\x20کاربری\x20باموفقیت\x20حذف\x20شد.','userNotFound':'کاربر\x20موردنظر\x20یافت\x20نشد!','confirmChangePassword':'آیا\x20از\x20تغییر\x20رمز\x20کاربر\x20مطمئن\x20هستید؟','passwordChanged':'رمز\x20عبور\x20با\x20موفقیت\x20تغییر\x20کرد.','addUserSuccess':'کاربر\x20باموفقیت\x20اضافه\x20شد.','userExists':'خطا:\x20کاربری\x20با\x20این\x20نام‌کاربری\x20وجود\x20دارد!','confirmDeleteTerm':'آیا\x20از\x20حذف\x20ترم\x20مطمئن\x20هستید؟','termDeleted':'ترم\x20با\x20موفقیت\x20حذف\x20شد.','cannotDeleteActiveTerm':'نمیتوان\x20ترم\x20فعال\x20را\x20حذف\x20نمود','termNotFound':'ترم\x20یافت\x20نشد!','confirmEndTerm':'آیا\x20از\x20اتمام\x20ترم\x20مطمئن\x20هستید؟','confirmActivateTerm':'آیا\x20از\x20فعال‌سازی\x20ترم\x20مطمئن\x20هستید؟','termActivated':'ترم\x20با\x20موفقیت\x20فعال\x20شد.','inputNewTerm':'نام\x20ترم\x20جدید\x20را\x20وارد\x20کنید:','termCreated':'ترم\x20جدید\x20با\x20موفقیت\x20ایجاد\x20شد.','noActiveTerm':'ترمی\x20فعال\x20نیست','errorGetTerm':'خطا\x20در\x20دریافت\x20ترم\x20جاری!','noGroup':'بدون\x20گروه','groupProgram':'برنامه‌ی\x20گروه\x20GGG','passwordPlaceholder':'رمزعبور','change':'تغییر','delete':'حذف','activate':'فعال‌سازی','invalidDate':'تاریخ\x20نامعتبر','inProgress':'درحال\x20برگزاری','minute':'دقیقه','saturday':'شنبه','sunday':'یکشنبه','monday':'دوشنبه','tuesday':'سه‌شنبه','wednesday':'چهارشنبه','thursday':'پنجشنبه','friday':'جمعه'},'en':{'wrongCredentials':'Incorrect\x20username\x20or\x20password!','serverResponseError':'Error\x20in\x20the\x20server\x20response!','connectionError':'Connection\x20error\x20with\x20the\x20server!','connectionFailed':'Failed\x20to\x20connect\x20to\x20the\x20server!','confirmDeleteAnnouncement':'Are\x20you\x20sure\x20you\x20want\x20to\x20delete\x20the\x20announcement?','announcementDeleted':'Announcement\x20deleted\x20successfully.','announcementNotFound':'Announcement\x20not\x20found!','announcementAdded':'Announcement\x20added\x20successfully.','confirmDeleteProgram':'Are\x20you\x20sure\x20you\x20want\x20to\x20delete\x20the\x20schedule?','programDeleted':'Program\x20deleted\x20successfully.','programNotFound':'Program\x20not\x20found!','programAdded':'New\x20program\x20added\x20successfully.','endAfterStart':'The\x20end\x20time\x20must\x20be\x20after\x20the\x20start\x20time!','startTime':'Start\x20Time','endTime':'End\x20Time','startDate':'Start\x20Date\x20&\x20Time','confirmDeleteUser':'Are\x20you\x20sure\x20you\x20want\x20to\x20delete\x20the\x20user?','userDeleted':'User\x20account\x20deleted\x20successfully.','userNotFound':'User\x20not\x20found!','confirmChangePassword':'Are\x20you\x20sure\x20you\x20want\x20to\x20change\x20the\x20user\x20password?','passwordChanged':'Password\x20changed\x20successfully.','addUserSuccess':'User\x20added\x20successfully.','userExists':'Error:\x20A\x20user\x20with\x20this\x20username\x20already\x20exists!','confirmDeleteTerm':'Are\x20you\x20sure\x20you\x20want\x20to\x20delete\x20the\x20term?','termDeleted':'Term\x20deleted\x20successfully.','cannotDeleteActiveTerm':'Cannot\x20delete\x20an\x20active\x20term.','termNotFound':'Term\x20not\x20found!','confirmEndTerm':'Are\x20you\x20sure\x20you\x20want\x20to\x20end\x20the\x20term?','confirmActivateTerm':'Are\x20you\x20sure\x20you\x20want\x20to\x20activate\x20the\x20term?','termActivated':'The\x20term\x20activated\x20successfully.','inputNewTerm':'Enter\x20the\x20new\x20term\x20name:','termCreated':'New\x20term\x20created\x20successfully.','noActiveTerm':'No\x20active\x20term','errorGetTerm':'Error\x20while\x20getting\x20current\x20term','noGroup':'No\x20group','groupProgram':'Group\x20GGG\x27s\x20Program','passwordPlaceholder':'Password','change':'Change','delete':'Delete','activate':'Activate','invalidDate':'Invalid\x20Date','inProgress':'In\x20Progress','minute':'Min','saturday':'Saturday','sunday':'Sunday','monday':'Monday','tuesday':'Tuesday','wednesday':'Wednesday','thursday':'Thursday','friday':'Friday'}};
+/**
+ * Alerts Section
+ */
+// Info Alert
+function showInfoAlert(message) {
+    document.getElementById("info-message").textContent = message;
+    document.getElementById("info-alert").classList.remove("alert-hidden");
+}
+
+function closeInfoAlert() {
+    document.getElementById("info-alert").classList.add("alert-hidden");
+}
+
+// Timer Alert
+function showTimerAlert(message, duration = 5000) {
+    document.getElementById("timer-message").textContent = message;
+    const el = document.getElementById("timer-alert");
+    el.classList.remove("alert-hidden");
+
+    setTimeout(() => {
+        el.classList.add("alert-hidden");
+    }, duration);
+}
+
+// Yes/No Alert (returns a Promise)
+function showYesOrNoAlert(message) {
+    return new Promise((resolve) => {
+        document.getElementById("yesno-message").textContent = message;
+        document.getElementById("yesno-alert").classList.remove("alert-hidden");
+
+        window.resolveYesNo = (answer) => {
+            document.getElementById("yesno-alert").classList.add("alert-hidden");
+            resolve(answer);
+        };
+    });
+}
+
+// Input Alert 
+function showInputAlert(message) {
+    document.getElementById("input-message").textContent = message;
+    document.getElementById("input-field").value = "";
+    document.getElementById("input-alert").classList.remove("alert-hidden");
+
+    window.resolveInput = (confirmed) => {
+        const value = confirmed
+            ? document.getElementById("input-field").value.trim()
+            : null;
+
+        document.getElementById("input-alert").classList.add("alert-hidden");
+        window._inputResolve(value);
+    };
+
+    return new Promise((resolve) => {
+        window._inputResolve = resolve;
+    });
+}
+
+/**
+ * Group Section
+ */
+async function loadGroups() {
+    // Send request to server
+    try {
+        const res = await fetch(`/api/groups`, {
+            method: "GET"
+        });
+
+        // Check the response
+        if (!res.ok) throw new Error(translate[lang].serverResponseError);
+
+        // Final result
+        return res.json();
+
+    } catch (err) {
+        // Log error
+        console.error("خطا در اتصال به سرور: ", err);
+        showInfoAlert(translate[lang].connectionFailed);
+    }
+}
+
+/**
+ * Term Section
+ */
+async function loadCurrentTerm() {
+    // Send request to server
+    try {
+        const res = await fetch(`/api/terms`);
+
+        // Check the response
+        if (!res.ok) throw new Error(translate[lang].serverResponseError);
+
+        // Final result
+        const { terms } = await res.json();
+        return terms.find(d => d.is_active === 1);
+
+    } catch (err) {
+        // Log error
+        console.error("خطا در اتصال به سرور: ", err);
+        showInfoAlert(translate[lang].connectionFailed);
+        return null;
+    }
+}
+
+/**
+ * Schedule Section
+ */
+async function loadScheduleContent(group) {
+    // Send request to server
+    try {
+        const res = await fetch(`/api/load/schedule`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ term_id: currentTerm.id, group_id: group })
+        });
+
+        // Check the response
+        if (!res.ok) throw new Error(translate[lang].serverResponseError);
+
+        // Return schedule data
+        return await res.json();
+
+    } catch (err) {
+        // Log error
+        console.error("خطا در اتصال به سرور: ", err);
+        showInfoAlert(translate[lang].connectionFailed);
+    }
+}
+
+/**
+ * Language Section
+ */
+const translate = {
+    fa: {
+        // --- Login & Global ---
+        wrongCredentials: "نام کاربری یا رمز عبور نادرست است!",
+        serverResponseError: "خطا در پاسخ دریافتی از سرور!",
+        connectionError: "خطا در ارتباط با سرور!",
+        connectionFailed: "اتصال به سرور برقرار نشد!",
+
+        // --- Announcements ---
+        confirmDeleteAnnouncement: "آیا از حذف اطلاعیه مطمئن هستید؟",
+        announcementDeleted: "اطلاعیه باموفقیت حذف شد.",
+        announcementNotFound: "اطلاعیه یافت نشد!",
+        announcementAdded: "اطلاعیه با موفقیت ثبت شد.",
+
+        // --- Programs ---
+        confirmDeleteProgram: "آیا از حذف زمان‌بندی مطمئن هستید؟",
+        programDeleted: "برنامه با موفقیت حذف شد.",
+        programNotFound: "برنامه یافت نشد!",
+        programAdded: "برنامه‌ی جدید با موفقیت اضافه شد.",
+        endAfterStart: "زمان پایان حتما باید بعد از زمان شروع باشد!",
+        startTime: "ساعت شروع",
+        endTime: "ساعت پایان",
+        startDate: "تاریخ و ساعت شروع",
+        fileSelectAlert: "لطفا یک فایل انتخاب کنید",
+        fileImported: "فایل باموفقیت وارد شد.",
+
+        // --- Users ---
+        confirmDeleteUser: 'آیا از حذف کاربر مطمئن هستید؟',
+        userDeleted: "حساب کاربری باموفقیت حذف شد.",
+        userNotFound: "کاربر موردنظر یافت نشد!",
+        confirmChangePassword: 'آیا از تغییر رمز کاربر مطمئن هستید؟',
+        passwordChanged: "رمز عبور با موفقیت تغییر کرد.",
+        addUserSuccess: "کاربر باموفقیت اضافه شد.",
+        userExists: "خطا: کاربری با این نام‌کاربری وجود دارد!",
+
+        // --- Terms ---
+        confirmDeleteTerm: 'آیا از حذف ترم مطمئن هستید؟',
+        termDeleted: "ترم با موفقیت حذف شد.",
+        cannotDeleteActiveTerm: "نمیتوان ترم فعال را حذف نمود",
+        termNotFound: "ترم یافت نشد!",
+        confirmEndTerm: "آیا از اتمام ترم مطمئن هستید؟",
+        confirmActivateTerm: 'آیا از فعال‌سازی ترم مطمئن هستید؟',
+        termActivated: "ترم با موفقیت فعال شد.",
+        inputNewTerm: "نام ترم جدید را وارد کنید:",
+        termCreated: "ترم جدید با موفقیت ایجاد شد.",
+        noActiveTerm: "ترمی فعال نیست",
+        errorGetTerm: "خطا در دریافت ترم جاری!",
+
+        // --- Misc ---
+        noGroup: "بدون گروه",
+        groupProgram: "برنامه‌ی گروه GGG",
+        passwordPlaceholder: "رمزعبور",
+        change: "تغییر",
+        delete: "حذف",
+        activate: "فعال‌سازی",
+        invalidDate: "تاریخ نامعتبر",
+        inProgress: "درحال برگزاری",
+        minute: "دقیقه‌ی دیگر",
+
+        // --- Week ---
+        saturday: "شنبه",
+        sunday: "یکشنبه",
+        monday: "دوشنبه",
+        tuesday: "سه‌شنبه",
+        wednesday: "چهارشنبه",
+        thursday: "پنجشنبه",
+        friday: "جمعه",
+    },
+
+    en: {
+        // --- Login & Global ---
+        wrongCredentials: "Incorrect username or password!",
+        serverResponseError: "Error in the server response!",
+        connectionError: "Connection error with the server!",
+        connectionFailed: "Failed to connect to the server!",
+
+        // --- Announcements ---
+        confirmDeleteAnnouncement: "Are you sure you want to delete the announcement?",
+        announcementDeleted: "Announcement deleted successfully.",
+        announcementNotFound: "Announcement not found!",
+        announcementAdded: "Announcement added successfully.",
+
+        // --- Programs ---
+        confirmDeleteProgram: "Are you sure you want to delete the schedule?",
+        programDeleted: "Program deleted successfully.",
+        programNotFound: "Program not found!",
+        programAdded: "New program added successfully.",
+        endAfterStart: "The end time must be after the start time!",
+        startTime: "Start Time",
+        endTime: "End Time",
+        startDate: "Start Date & Time",
+        fileSelectAlert: "Please select a file",
+        fileImported: "File has been imported successfully.",
+
+        // --- Users ---
+        confirmDeleteUser: 'Are you sure you want to delete the user?',
+        userDeleted: "User account deleted successfully.",
+        userNotFound: "User not found!",
+        confirmChangePassword: 'Are you sure you want to change the user password?',
+        passwordChanged: "Password changed successfully.",
+        addUserSuccess: "User added successfully.",
+        userExists: "Error: A user with this username already exists!",
+
+        // --- Terms ---
+        confirmDeleteTerm: 'Are you sure you want to delete the term?',
+        termDeleted: "Term deleted successfully.",
+        cannotDeleteActiveTerm: "Cannot delete an active term.",
+        termNotFound: "Term not found!",
+        confirmEndTerm: "Are you sure you want to end the term?",
+        confirmActivateTerm: 'Are you sure you want to activate the term?',
+        termActivated: "The term activated successfully.",
+        inputNewTerm: "Enter the new term name:",
+        termCreated: "New term created successfully.",
+        noActiveTerm: "No active term",
+        errorGetTerm: "Error while getting current term",
+
+        // --- Misc ---
+        noGroup: "No group",
+        groupProgram: "Group GGG's Program",
+        passwordPlaceholder: "Password",
+        change: "Change",
+        delete: "Delete",
+        activate: "Activate",
+        invalidDate: "Invalid Date",
+        inProgress: "In Progress",
+        minute: "Min",
+
+        // --- Week ---
+        saturday: "Saturday",
+        sunday: "Sunday",
+        monday: "Monday",
+        tuesday: "Tuesday",
+        wednesday: "Wednesday",
+        thursday: "Thursday",
+        friday: "Friday",
+    }
+};
+

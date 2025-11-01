@@ -3,26 +3,15 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Main Page - Faculty Announcements System</title>
-
-    <!-- CSS -->
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/global.css">
-
-    <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Anton&family=Markazi+Text:wght@400..700&family=Vazirmatn:wght@100..900&display=swap"
-        rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Main Page - Announcement System</title>
+    <link rel="stylesheet" href="/css/font.css">
+    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="/css/color.css">
+    <link rel="stylesheet" href="/src/output.css">
 </head>
 
-<body>
-    <!-- Screen Warning -->
-    <div id="screen-warning">
-        To use this pannel, please open it with wide screen size.
-    </div>
-
+<body class="bg-gray-900 text-white">
     <header>
         <img src="assets/logo.png" alt="University Logo" />
         <div class="date-time-container">
@@ -31,34 +20,34 @@
         </div>
     </header>
 
-    <main id="main">
-        <h1 id="page-title">Classes Program</h1>
-        <div class="table-container" style="display: none;">
-            <table id="schedule-table">
-                <thead>
+    <main class="overflow-hidden">
+        <div id="announcement-board" class="w-full overflow-y-hidden">
+            <table class="w-full text-2xl border-collapse">
+                <thead class="bg-blue-800 sticky top-0 z-10">
                     <tr>
-                        <th class="th-25"></th>
-                        <th class="th-175">Title</th>
-                        <th class="th-25">Group</th>
-                        <th class="th-150">Host</th>
-                        <th class="th-50">Start</th>
-                        <th class="th-50">End</th>
-                        <th class="th-150">Place</th>
-                        <th class="th-100">Status</th>
+                        <th class="width-1/5 p-3 text-left">Instructor</th>
+                        <th class="width-1/4 p-3 text-left">Course</th>
+                        <th class="width-1/12 p-3 text-left">Group</th>
+                        <th class="width-1/4 p-3 text-left">Place</th>
+                        <th class="width-1/6 p-3 text-left">Status</th>
+                        <th class="width-1/6 p-3 text-left">Departement</th>
                     </tr>
                 </thead>
-                <tbody></tbody>
+                <tbody class="font-bold" id="flights">
+                    <!-- Classes will be populated by JavaScript -->
+                </tbody>
             </table>
         </div>
-        <div id="no-show-screen" style="display: none;">There is no program yet!</div>
+
+        <div class="bg-blue-800 p-3 overflow-hidden">
+            <div id="ticker" class="whitespace-nowrap text-2xl">
+                <!-- Ticker content will be populated by JavaScript -->
+            </div>
+        </div>
     </main>
 
-    <div id="subtitle-container">
-        <div id="subtitle-text">This is a test subtitle...</div>
-    </div>
-
-    <script src="js/global.js"></script>
-    <script src="js/main.js"></script>
+    <script src="/js/global.js"></script>
+    <script src="/js/main.js"></script>
 </body>
 
 </html>

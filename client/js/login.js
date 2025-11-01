@@ -1,1 +1,78 @@
-const loginError=document['getElementById']('login-error');function injectHTMLAssets(_0x526691){const _0x5d14bd=document['createElement']('div');_0x5d14bd['innerHTML']=_0x526691,_0x5d14bd['querySelectorAll']('script[src]')['forEach'](({src:_0x74bf7})=>{const _0x126146=Object['assign'](document['createElement']('script'),{'src':_0x74bf7,'async':![]});document['head']['appendChild'](_0x126146);}),_0x5d14bd['querySelectorAll']('link[rel=stylesheet]')['forEach'](_0x226a31=>{document['head']['appendChild'](_0x226a31['cloneNode'](!![]));});}document['getElementById']('login-section')['addEventListener']('submit',async _0x5ab911=>{_0x5ab911['preventDefault']();const _0x394ae9=document['getElementById']('username')['value']['trim'](),_0x4495a6=document['getElementById']('password')['value']['trim'](),_0x15ea05=document['getElementById']('role')['value'];try{const _0x9bef04=await fetch('/api/login',{'method':'POST','headers':{'Content-Type':'application/json'},'body':JSON['stringify']({'username':_0x394ae9,'password':_0x4495a6,'role':_0x15ea05,'lang':lang})});if(_0x9bef04['ok']){_0x5ab911['target']['classList']['add']('hidden');const _0x2c12d1=await _0x9bef04['text']();document['body']['innerHTML']+=_0x2c12d1,injectHTMLAssets(_0x2c12d1);}else{if(_0x9bef04['status']===0x191)loginError['textContent']=translate[lang]['wrongCredentials'];else throw new Error(translate[lang]['serverResponseError']);}}catch(_0x166702){console['error']('خطا\x20در\x20اتصال\x20به\x20سرور:\x20',_0x166702),loginError['textContent']=translate[lang]['connectionError'];}});
+/**
+ * Global Values
+ */
+const lang = document.documentElement.lang || 'fa';
+
+/**
+ * Screen Size
+ */
+const warning = document.getElementById("screen-warning");
+const container = document.getElementById("main-container");
+
+function checkScreen() {
+    if (window.innerWidth < 1000) {
+        warning.style.display = "flex";
+    } else {
+        warning.style.display = "none";
+    }
+}
+
+checkScreen();
+window.addEventListener("resize", checkScreen);
+
+/**
+ * Login Section
+ */
+const loginError = document.getElementById("login-error");
+
+function injectHTMLAssets(html) {
+    const temp = document.createElement("div");
+    temp.innerHTML = html;
+
+    // Load scripts
+    temp.querySelectorAll("script[src]").forEach(({ src }) => {
+        const s = Object.assign(document.createElement("script"), {
+            src, async: false
+        });
+        document.head.appendChild(s);
+    });
+
+    // Load styles
+    temp.querySelectorAll("link[rel=stylesheet]").forEach(link => {
+        document.head.appendChild(link.cloneNode(true));
+    });
+}
+
+document.getElementById("login-section").addEventListener("submit", async e => {
+    e.preventDefault();
+
+    // Get input values
+    const username = document.getElementById("username").value.trim();
+    const password = document.getElementById("password").value.trim();
+    const role = document.getElementById("role").value;
+
+    // Send request to the server
+    try {
+        const res = await fetch(`/api/login`, {
+            method: "POST",
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ username, password, role, lang })
+        });
+
+        // Check response
+        if (res.ok) {
+            e.target.classList.add("hidden");
+            const html = await res.text();
+            document.body.innerHTML += html;
+            injectHTMLAssets(html);
+        } else if (res.status === 401) {
+            loginError.textContent = translate[lang].wrongCredentials;
+        } else {
+            throw new Error(translate[lang].serverResponseError);
+        }
+    } catch (err) {
+        // Log error
+        console.error("خطا در اتصال به سرور: ", err);
+        loginError.textContent = translate[lang].connectionError;
+    }
+});

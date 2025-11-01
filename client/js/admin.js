@@ -1,1 +1,357 @@
-function updateTime(){const _0x42fe8c=new Date(),_0x53197e=[translate[lang]['sunday'],translate[lang]['monday'],translate[lang]['tuesday'],translate[lang]['wednsday'],translate[lang]['thursday'],translate[lang]['friday'],translate[lang]['saturday']],_0x195dae=_0x53197e[_0x42fe8c['getDay']()],_0x3c2550=lang==='fa'?'fa-IR':'en-US',_0x27e0c1=_0x42fe8c['toLocaleDateString'](_0x3c2550),_0x5e77a8=_0x42fe8c['toLocaleTimeString'](_0x3c2550);document['getElementById']('datetime')['textContent']=_0x195dae+'،\x20'+_0x27e0c1+'\x20-\x20'+_0x5e77a8;}async function _initGroups(){const {groups:_0x3ada01}=await loadGroups();allGroups=_0x3ada01;const _0x22941a=document['querySelector']('#user-group');_0x22941a['innerHTML']=allGroups['map'](_0x20d2ce=>'<option\x20value=\x22'+_0x20d2ce['id']+'\x22>'+_0x20d2ce['name']+'</option>')['join']('');}function deleteUser(_0x330f8a){showYesOrNoAlert(translate[lang]['confirmDeleteUser'])['then'](async _0x58064b=>{if(!_0x58064b)return;try{const _0x24ce15=await fetch('/api/users/del/'+encodeURIComponent(_0x330f8a),{'method':'DELETE'});if(_0x24ce15['ok'])showInfoAlert(translate[lang]['userDeleted']),await _initUsers();else{if(_0x24ce15['status']===0x194)showInfoAlert(translate[lang]['userNotFound']);else throw new Error(translate[lang]['serverResponseError']);}}catch(_0x3026af){console['error']('خطا\x20در\x20اتصال\x20به\x20سرور:\x20',_0x3026af),showInfoAlert(translate[lang]['connectionFailed']);}});}function updateUserPassword(_0x146961){showYesOrNoAlert(translate[lang]['confirmChangePassword'])['then'](async _0x1e9a9d=>{if(!_0x1e9a9d)return;const _0x34bd62=document['getElementById']('pass-'+_0x146961),_0x2423a2=_0x34bd62['value']['trim']();try{const _0x12392f=await fetch('/api/users/update/'+encodeURIComponent(_0x146961)+'/password',{'method':'PUT','headers':{'Content-Type':'application/json'},'body':JSON['stringify']({'password':_0x2423a2})});if(_0x12392f['ok'])showInfoAlert(translate[lang]['passwordChanged']);else{if(_0x12392f['status']===0x194)showInfoAlert(translate[lang]['userNotFound']);else throw new Error(translate[lang]['serverResponseError']);}}catch(_0x2c692c){console['error']('خطا\x20در\x20اتصال\x20به\x20سرور:\x20',_0x2c692c),showInfoAlert(translate[lang]['connectionFailed']);}});}document['getElementById']('add-user-form')['addEventListener']('submit',async _0x3ed90d=>{_0x3ed90d['preventDefault']();const _0x22bbe6=_0x3ed90d['target']['querySelector']('#expert-username')['value']['trim'](),_0x571194=_0x3ed90d['target']['querySelector']('#expert-password')['value']['trim'](),_0x25d8de=_0x3ed90d['target']['querySelector']('#user-group')['value'];try{const _0x399536=await fetch('/api/users/add',{'method':'POST','headers':{'Content-Type':'application/json'},'body':JSON['stringify']({'username':_0x22bbe6,'password':_0x571194,'group':_0x25d8de})});if(_0x399536['ok'])showInfoAlert(translate[lang]['addUserSuccess']),await _initUsers();else{if(_0x399536['status']===0x199)showInfoAlert(translate[lang]['userExists']);else throw new Error(translate[lang]['serverResponseError']);}_0x3ed90d['target']['reset']();}catch(_0x31b6be){console['error']('خطا\x20در\x20اتصال\x20به\x20سرور:\x20',_0x31b6be),showInfoAlert(translate[lang]['connectionFailed']);}});async function loadUsers(){try{const _0x28c9ba=await fetch('/api/users',{'method':'GET'});if(!_0x28c9ba['ok'])throw new Error(translate[lang]['serverResponseError']);return _0x28c9ba['json']();}catch(_0x3eb1cf){console['error']('خطا\x20در\x20اتصال\x20به\x20سرور:\x20',_0x3eb1cf),showInfoAlert(translate[lang]['connectionFailed']);}}async function _initUsers(){const {users:_0x5cc37a}=await loadUsers(),_0x4b5cb7=document['querySelector']('#users-table\x20tbody');_0x4b5cb7['innerHTML']='',_0x5cc37a['forEach'](_0x1f78fb=>{const _0x165ff7=document['createElement']('tr');_0x165ff7['innerHTML']='\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<td>'+_0x1f78fb['username']+'</td>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<td>'+(allGroups['find'](_0x440dc1=>_0x440dc1['id']===_0x1f78fb['group_id'])?.['name']||translate[lang]['noGroup'])+'</td>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<td>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<input\x20id=\x22pass-'+_0x1f78fb['username']+'\x22\x20type=\x22password\x22\x20placeholder=\x22'+translate[lang]['passwordPlaceholder']+'\x22\x20value='+_0x1f78fb['password']+'>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<button\x20onclick=\x22updateUserPassword(\x27'+_0x1f78fb['username']+'\x27)\x22>'+translate[lang]['change']+'</button>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20</td>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<td><button\x20onclick=\x22deleteUser(\x27'+_0x1f78fb['username']+'\x27)\x22>'+translate[lang]['delete']+'</button></td>\x0a\x20\x20\x20\x20\x20\x20\x20\x20',_0x4b5cb7['appendChild'](_0x165ff7);});}const endBtn=document['getElementById']('end-term');function deleteTerm(_0x540cd8,_0x40001a){showYesOrNoAlert(translate[lang]['confirmDeleteTerm'])['then'](async _0x4eafa8=>{if(!_0x4eafa8)return;try{const _0x5dbfa1=await fetch('/api/terms/delete',{'method':'DELETE','headers':{'Content-Type':'application/json'},'body':JSON['stringify']({'id':_0x40001a})});if(_0x5dbfa1['ok'])showInfoAlert(translate[lang]['termDeleted']),await _initTerms();else{if(_0x5dbfa1['status']===0x190)showInfoAlert(translate[lang]['cannotDeleteActiveTerm']);else{if(_0x5dbfa1['status']===0x194)showInfoAlert(translate[lang]['termNotFound']);else throw new Error(translate[lang]['serverResponseError']);}}}catch(_0x2c4270){console['error']('خطا\x20در\x20اتصال\x20به\x20سرور:\x20',_0x2c4270),showInfoAlert(translate[lang]['connectionFailed']);}});}endBtn['addEventListener']('click',()=>{showYesOrNoAlert(translate[lang]['confirmEndTerm'])['then'](async _0x3ac3a1=>{if(!_0x3ac3a1)return;try{const _0x51a584=await fetch('/api/terms/end',{'method':'GET'});if(!_0x51a584['ok'])throw new Error(translate[lang]['serverResponseError']);await _initTerms();}catch(_0x13c740){console['error']('خطا\x20در\x20اتصال\x20به\x20سرور:\x20',_0x13c740),showInfoAlert(translate[lang]['connectionFailed']);}});});function activateTerm(_0x4985de,_0x43cbdd){showYesOrNoAlert(translate[lang]['confirmActivateTerm'])['then'](async _0x4d43d0=>{if(!_0x4d43d0)return;try{const _0x5965f2=await fetch('/api/terms/activate',{'method':'POST','headers':{'Content-Type':'application/json'},'body':JSON['stringify']({'id':_0x43cbdd})});if(_0x5965f2['ok'])showInfoAlert(translate[lang]['termActivated']),await _initTerms();else throw new Error(translate[lang]['serverResponseError']);}catch(_0x539f76){console['error']('خطا\x20در\x20اتصال\x20به\x20سرور:\x20',_0x539f76),showInfoAlert(translate[lang]['connectionFailed']);}});}document['getElementById']('new-term')['addEventListener']('click',()=>{showInputAlert(translate[lang]['inputNewTerm'])['then'](async _0x42220a=>{if(!_0x42220a)return;try{const _0x50f1a9=await fetch('/api/terms/new',{'method':'POST','headers':{'Content-Type':'application/json'},'body':JSON['stringify']({'name':_0x42220a})});if(_0x50f1a9['status']===0xc9)showInfoAlert(translate[lang]['termCreated']),await _initTerms();else throw new Error(translate[lang]['serverResponseError']);}catch(_0x58bfa8){console['error']('خطا\x20در\x20اتصال\x20به\x20سرور:\x20',_0x58bfa8),showInfoAlert(translate[lang]['connectionFailed']);}});});async function loadTerms(){try{const _0x151061=await fetch('/api/terms');if(!_0x151061['ok'])throw new Error(translate[lang]['serverResponseError']);return _0x151061['json']();}catch(_0x5e1552){console['error']('خطا\x20در\x20اتصال\x20به\x20سرور:\x20',_0x5e1552),showInfoAlert(translate[lang]['connectionFailed']);}}async function _initTerms(){const {terms:_0x1505bf}=await loadTerms(),_0x1e9e20=document['querySelector']('#current-term\x20p');_0x1e9e20['textContent']=_0x1505bf['find'](_0x1dd5bc=>_0x1dd5bc['is_active']===0x1)?.['name']||translate[lang]['noActiveTerm'],endBtn['disabled']=_0x1e9e20['textContent']===translate[lang]['noActiveTerm'];const _0x587dfe=document['getElementById']('term-list');_0x587dfe['innerHTML']='',_0x1505bf['forEach'](_0x4278b7=>{const _0x1aef30=document['createElement']('div');_0x1aef30['className']='term-row',_0x1aef30['innerHTML']='\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<p>'+_0x4278b7['name']+'</p>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<button\x20'+(_0x4278b7['is_active']===0x1?'disabled':'')+'>'+translate[lang]['activate']+'</button>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<button\x20onclick=\x22deleteTerm(\x27'+_0x4278b7['name']+'\x27,\x20\x27'+_0x4278b7['id']+'\x27)\x22>'+translate[lang]['delete']+'</button>\x0a\x20\x20\x20\x20\x20\x20\x20\x20',_0x1aef30['querySelector']('button')['addEventListener']('click',()=>activateTerm(_0x4278b7['name'],_0x4278b7['id'])),_0x587dfe['appendChild'](_0x1aef30);});}((async()=>{await _initGroups(),await _initUsers(),await _initTerms(),updateTime(),setInterval(updateTime,0x3e8);})());
+/**
+ * Global Values
+ */
+let allGroups;
+const lang = document.documentElement.lang || 'fa';
+
+/**
+ * Time & Date Section
+ */
+function updateTime() {
+    const now = new Date();
+    const weekdays = [
+        translate[lang].sunday,
+        translate[lang].monday,
+        translate[lang].tuesday,
+        translate[lang].wednsday,
+        translate[lang].thursday,
+        translate[lang].friday,
+        translate[lang].saturday
+    ];
+    const day = weekdays[now.getDay()];
+    const numType = lang === 'fa' ? "fa-IR" : "en-US";
+    const dateStr = now.toLocaleDateString(numType);
+    const timeStr = now.toLocaleTimeString(numType);
+    document.getElementById("datetime").textContent = `${day}، ${dateStr} - ${timeStr}`;
+}
+
+/**
+ * Group Section
+ */
+async function _initGroups() {
+    const { groups } = await loadGroups();
+    allGroups = groups;
+    const select = document.querySelector("#user-group");
+    select.innerHTML = allGroups.map(g => `<option value="${g.id}">${g.name}</option>`).join('');
+}
+
+/**
+ * Users Section
+ */
+function deleteUser(username) {
+    showYesOrNoAlert(translate[lang].confirmDeleteUser).then(async (yes) => {
+        if (!yes) return;
+
+        // Send request to the sever
+        try {
+            const res = await fetch(`/api/users/del/${encodeURIComponent(username)}`, {
+                method: 'DELETE'
+            });
+
+            // Check the response
+            if (res.ok) {
+                // Final result
+                showInfoAlert(translate[lang].userDeleted)
+                await _initUsers();
+            } else if (res.status === 404) {
+                showInfoAlert(translate[lang].userNotFound);
+            } else {
+                throw new Error(translate[lang].serverResponseError);
+            }
+
+        } catch (err) {
+            // Log error
+            console.error("خطا در اتصال به سرور: ", err);
+            showInfoAlert(translate[lang].connectionFailed);
+        }
+    });
+}
+
+function updateUserPassword(username) {
+    showYesOrNoAlert(translate[lang].confirmChangePassword).then(async (yes) => {
+        if (!yes) return;
+
+        // Get input values
+        const input = document.getElementById(`pass-${username}`);
+        const newPassword = input.value.trim();
+
+        // Send request to the server
+        try {
+            const res = await fetch(`/api/users/update/${encodeURIComponent(username)}/password`, {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ password: newPassword })
+            });
+
+            // Check the response
+            if (res.ok) {
+                showInfoAlert(translate[lang].passwordChanged);
+            } else if (res.status === 404) {
+                showInfoAlert(translate[lang].userNotFound);
+            } else {
+                throw new Error(translate[lang].serverResponseError);
+            }
+
+        } catch (err) {
+            // Log error
+            console.error("خطا در اتصال به سرور: ", err);
+            showInfoAlert(translate[lang].connectionFailed);
+        }
+    });
+}
+
+document.getElementById("add-user-form").addEventListener("submit", async e => {
+    e.preventDefault();
+
+    // Get input values
+    const username = e.target.querySelector("#expert-username").value.trim();
+    const password = e.target.querySelector("#expert-password").value.trim();
+    const group = e.target.querySelector("#user-group").value;
+
+    // Send request to the server
+    try {
+        const res = await fetch(`/api/users/add`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ username, password, group })
+        });
+
+        // Check the response
+        if (res.ok) {
+            showInfoAlert(translate[lang].addUserSuccess);
+            await _initUsers();
+        } else if (res.status === 409) {
+            showInfoAlert(translate[lang].userExists);
+        } else {
+            throw new Error(translate[lang].serverResponseError);
+        }
+
+        // Reset form
+        e.target.reset();
+
+    } catch (err) {
+        // Log error
+        console.error("خطا در اتصال به سرور: ", err);
+        showInfoAlert(translate[lang].connectionFailed);
+    }
+});
+
+async function loadUsers() {
+    // Send request to server
+    try {
+        const res = await fetch(`/api/users`, {
+            method: "GET"
+        });
+
+        // Check the response
+        if (!res.ok) throw new Error(translate[lang].serverResponseError);
+
+        // Final result
+        return res.json();
+
+    } catch (err) {
+        // Log error
+        console.error("خطا در اتصال به سرور: ", err);
+        showInfoAlert(translate[lang].connectionFailed);
+    }
+}
+
+async function _initUsers() {
+    // Load users
+    const { users } = await loadUsers();
+
+    // Reset the table
+    const usersTableBody = document.querySelector("#users-table tbody");
+    usersTableBody.innerHTML = "";
+
+    // Render the users table
+    users.forEach(user => {
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
+            <td>${user.username}</td>
+            <td>${allGroups.find(g => g.id === user.group_id)?.name || translate[lang].noGroup}</td>
+            <td>
+                <input id="pass-${user.username}" type="password" placeholder="${translate[lang].passwordPlaceholder}" value=${user.password}>
+                <button onclick="updateUserPassword('${user.username}')">${translate[lang].change}</button>
+            </td>
+            <td><button onclick="deleteUser('${user.username}')">${translate[lang].delete}</button></td>
+        `;
+        usersTableBody.appendChild(tr);
+    });
+}
+
+/**
+ * Term Section
+ */
+const endBtn = document.getElementById("end-term");
+
+function deleteTerm(term, id) {
+    showYesOrNoAlert(translate[lang].confirmDeleteTerm).then(async (yes) => {
+        if (!yes) return;
+
+        // Send request to server
+        try {
+            const res = await fetch(`/api/terms/delete`, {
+                method: "DELETE",
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ id })
+            });
+
+            // Check response
+            if (res.ok) {
+                showInfoAlert(translate[lang].termDeleted);
+                await _initTerms();
+            } else if (res.status === 400) {
+                showInfoAlert(translate[lang].cannotDeleteActiveTerm);
+            } else if (res.status === 404) {
+                showInfoAlert(translate[lang].termNotFound);
+            } else {
+                throw new Error(translate[lang].serverResponseError);
+            }
+
+        } catch (err) {
+            // Log error
+            console.error("خطا در اتصال به سرور: ", err);
+            showInfoAlert(translate[lang].connectionFailed);
+        }
+    });
+}
+
+endBtn.addEventListener("click", () => {
+    showYesOrNoAlert(translate[lang].confirmEndTerm).then(async (yes) => {
+        if (!yes) return;
+
+        // Send request to server
+        try {
+            const res = await fetch(`/api/terms/end`, {
+                method: "GET"
+            });
+
+            // Check response
+            if (!res.ok) throw new Error(translate[lang].serverResponseError);
+
+            // Final result
+            await _initTerms();
+
+        } catch (err) {
+            // Log error
+            console.error("خطا در اتصال به سرور: ", err);
+            showInfoAlert(translate[lang].connectionFailed);
+        }
+    });
+});
+
+function activateTerm(name, id) {
+    showYesOrNoAlert(translate[lang].confirmActivateTerm).then(async (yes) => {
+        if (!yes) return;
+
+        // Send request to server
+        try {
+            const res = await fetch(`/api/terms/activate`, {
+                method: "POST",
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ id })
+            });
+
+            // Check response
+            if (res.ok) {
+                showInfoAlert(translate[lang].termActivated);
+                await _initTerms();
+            } else {
+                throw new Error(translate[lang].serverResponseError);
+            }
+
+        } catch (err) {
+            // Log error
+            console.error("خطا در اتصال به سرور: ", err);
+            showInfoAlert(translate[lang].connectionFailed);
+        }
+    });
+}
+
+document.getElementById("new-term").addEventListener("click", () => {
+    // Show input alert
+    showInputAlert(translate[lang].inputNewTerm).then(async (name) => {
+        if (!name) return;
+
+        // Send request to server
+        try {
+            const res = await fetch(`/api/terms/new`, {
+                method: "POST",
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ name })
+            });
+
+            // Check the response
+            if (res.status === 201) {
+                showInfoAlert(translate[lang].termCreated);
+                await _initTerms();
+            } else {
+                throw new Error(translate[lang].serverResponseError);
+            }
+
+        } catch (err) {
+            // Log error
+            console.error("خطا در اتصال به سرور: ", err);
+            showInfoAlert(translate[lang].connectionFailed);
+        }
+    });
+});
+
+async function loadTerms() {
+    // Send request to server
+    try {
+        const res = await fetch(`/api/terms`);
+
+        // Check the response
+        if (!res.ok) throw new Error(translate[lang].serverResponseError);
+
+        // Final result
+        return res.json();
+
+    } catch (err) {
+        // Log error
+        console.error("خطا در اتصال به سرور: ", err);
+        showInfoAlert(translate[lang].connectionFailed);
+    }
+}
+
+async function _initTerms() {
+    // Load users
+    const { terms } = await loadTerms();
+
+    // Set the term html elements
+    const termActiveText = document.querySelector("#current-term p");
+    termActiveText.textContent = terms.find(t => t.is_active === 1)?.name || translate[lang].noActiveTerm;
+    endBtn.disabled = termActiveText.textContent === translate[lang].noActiveTerm;
+
+    // Reset the list
+    const archivedList = document.getElementById("term-list");
+    archivedList.innerHTML = "";
+
+    // Render the terms list
+    terms.forEach(term => {
+        const row = document.createElement("div");
+        row.className = "term-row";
+        row.innerHTML = `
+            <p>${term.name}</p>
+            <button ${term.is_active === 1 ? "disabled" : ""}>${translate[lang].activate}</button>
+            <button onclick="deleteTerm('${term.name}', '${term.id}')">${translate[lang].delete}</button>
+        `;
+        row.querySelector("button").addEventListener("click", () => activateTerm(term.name, term.id));
+        archivedList.appendChild(row);
+    });
+}
+
+/**
+ * Starting Thread
+ */
+(async () => {
+    await _initGroups();
+    await _initUsers();
+    await _initTerms();
+    updateTime();
+    setInterval(updateTime, 1000);
+})();

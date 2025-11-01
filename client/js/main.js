@@ -1,1 +1,217 @@
-let todayDayName,maxVisible=0x5;function formatJalaliDate(){const _0x2d9ad8=new Date(),_0xd35c75=lang==='fa'?'fa-IR':'en-US',_0x1431e1=new Intl['DateTimeFormat'](_0xd35c75+'-u-ca-persian',{'weekday':'long','day':'numeric','month':'long','year':'numeric'}),_0x153785=_0x1431e1['formatToParts'](_0x2d9ad8),_0xc3dc93={};return _0x153785['forEach'](_0x127ac0=>_0xc3dc93[_0x127ac0['type']]=_0x127ac0['value']),_0xc3dc93['weekday']+'،\x20'+_0xc3dc93['day']+'\x20'+_0xc3dc93['month']+'\x20'+_0xc3dc93['year'];}function formatTime(){const _0xabfdbd=new Date(),_0x3fc883=lang==='fa'?'fa-IR':'en-US';return _0xabfdbd['toLocaleTimeString'](_0x3fc883);}function updateClock(){document['getElementById']('date')['textContent']=formatJalaliDate(),document['getElementById']('time')['textContent']=formatTime();}function noShowScreen(_0x2db7c2){const _0x573d37=document['getElementById']('main');_0x573d37['innerHTML']='<div\x20id=\x22no-show-screen\x22>'+_0x2db7c2+'</div>';}function animateTableScroll(){return new Promise(_0x10baa3=>{const _0x2021e8=document['querySelector']('#schedule-table\x20tbody'),_0x25a382=document['querySelector']('.table-container'),_0x568244=_0x2021e8['querySelectorAll']('tr'),_0x46134c=_0x568244['length']-maxVisible,_0x270590=_0x568244[0x0]['offsetHeight'];let _0x17314b=0x0;function _0x36ba92(){if(_0x17314b>_0x46134c)return _0x10baa3();const _0x208505=_0x17314b*_0x270590;_0x25a382['scrollTo']({'top':_0x208505,'behavior':'smooth'}),_0x17314b++,setTimeout(_0x36ba92,0x9c4);}_0x36ba92();});}function formatTimeOnly(_0x504338){if(/^\d{1,2}:\d{2}$/['test'](_0x504338))return _0x504338;const _0x4f75da=new Date(_0x504338);if(isNaN(_0x4f75da))return translate[lang]['invalidDate'];const _0x596250=String(_0x4f75da['getHours']())['padStart'](0x2,'0'),_0x601f3=String(_0x4f75da['getMinutes']())['padStart'](0x2,'0');return _0x596250+':'+_0x601f3;}function faNum(_0x45c9ce){str=String(_0x45c9ce);const _0x2925fe=['۰','۱','۲','۳','۴','۵','۶','۷','۸','۹'];return lang==='fa'?str['replace'](/\d/g,_0x4fc403=>_0x2925fe[_0x4fc403]):_0x45c9ce;}function displayGroupSchedule(_0x41da4b,_0x360fba){document['getElementById']('page-title')['textContent']=translate[lang]['groupProgram']['replace']('GGG',_0x41da4b);const _0x27655f=document['querySelector']('.table-container'),_0x1b0b66=document['getElementById']('no-show-screen');if(_0x360fba['length']===0x0)return _0x27655f['style']['display']='none',_0x1b0b66['style']['display']='block',0x1388;_0x27655f['style']['display']='block',_0x1b0b66['style']['display']='none';const _0x1c2906=document['querySelector']('#schedule-table\x20tbody');_0x1c2906['innerHTML']='',_0x360fba['forEach']((_0x216f8b,_0x4f0889)=>{const _0x3c7aeb=document['createElement']('tr');_0x3c7aeb['innerHTML']='\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<td>'+faNum(_0x4f0889+0x1)+'</td>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<td>'+faNum(_0x216f8b['title'])+'</td>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<td>'+faNum(_0x216f8b['prGroup'])+'</td>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<td>'+faNum(_0x216f8b['host'])+'</td>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<td>'+faNum(formatTimeOnly(_0x216f8b['start']))+'</td>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<td>'+faNum(formatTimeOnly(_0x216f8b['end']))+'</td>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<td>'+faNum(_0x216f8b['place'])+'</td>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<td>'+faNum(_0x216f8b['status'])+'</td>\x0a\x20\x20\x20\x20\x20\x20\x20\x20',_0x216f8b['status']===translate[lang]['inProgress']&&(_0x3c7aeb['style']['backgroundColor']='#D1FFBD'),!_0x216f8b['day']&&(_0x3c7aeb['style']['backgroundColor']='#FFFFC5'),_0x1c2906['appendChild'](_0x3c7aeb);});const _0x209db5=Math['max'](0x0,_0x360fba['length']-maxVisible);return _0x209db5>0x0?0x2710+_0x209db5*0x9c4:0x2710;}function getStatus(_0x3b66d7,_0x4f761c,_0x25bdfd=new Date()){if(_0x3b66d7<=_0x25bdfd&&_0x25bdfd<=_0x4f761c)return translate[lang]['inProgress'];else{if(_0x3b66d7>_0x25bdfd){const _0x17593c=Math['floor']((_0x3b66d7-_0x25bdfd)/0xea60);return _0x17593c+'\x20'+translate[lang]['minute'];}}return null;}function parseDateTime(_0x1798b3){const [_0x84ed5a,_0x39ad5e]=_0x1798b3['split']('T')['map'](_0x4e16f0=>_0x4e16f0['trim']()),[_0x396da6,_0x2b991b,_0x46e87e]=_0x84ed5a['split']('-')['map'](Number),[_0x39d4a9,_0x5c6cc6]=_0x39ad5e['split'](':')['map'](Number),_0x1b4deb=new Date(_0x396da6,_0x2b991b-0x1,_0x46e87e,_0x39d4a9,_0x5c6cc6);return _0x1b4deb;}function parseTimeOnly(_0x533ccb){const [_0x57d523,_0x505668]=_0x533ccb['split'](':')['map'](Number),_0x32635f=new Date();return _0x32635f['setHours'](_0x57d523,_0x505668,0x0,0x0),_0x32635f;}function processPrograms(_0x6b5efe){return _0x6b5efe['map'](_0x24538d=>{const _0xcc32bd=_0x24538d['weekly'],_0x4828a7=_0xcc32bd?parseTimeOnly(_0x24538d['start']):parseDateTime(_0x24538d['start']),_0x356a2d=parseTimeOnly(_0x24538d['end']),_0x54dd9a=getStatus(_0x4828a7,_0x356a2d);return _0x54dd9a?{..._0x24538d,'sortTime':_0x4828a7,'status':_0x54dd9a}:null;})['filter'](Boolean)['sort']((_0x4d0ad3,_0x26c751)=>_0x4d0ad3['sortTime']-_0x26c751['sortTime']);}function filterAndSortPrograms(_0x44cfe0){const _0x5bcabd=_0x44cfe0['filter'](_0x73fae9=>_0x73fae9['type']==='weekly'),_0x2a7223=_0x44cfe0['filter'](_0xf887c6=>_0xf887c6['type']==='one-time'),_0x55bbb2=[..._0x5bcabd,..._0x2a7223];let _0x4f0254=processPrograms(_0x55bbb2);const _0x3730fd=_0x4f0254['filter'](_0x3fa8bd=>{if(_0x3fa8bd['day'])return _0x3fa8bd['day']===todayDayName;else{const _0xdd15c2=new Date(),_0x2a4162=new Date(_0x3fa8bd['start']);return _0x2a4162['toDateString']()===_0xdd15c2['toDateString']();}});return _0x3730fd;}async function startPresentation(_0x3fd671){let _0x4150cb=0x0;async function _0x2ffc61(){const _0x39eba6=allGroups[_0x4150cb],_0x5ccbd2=_0x39eba6['name'],_0x5c1bc2=filterAndSortPrograms(_0x3fd671['filter'](_0x31a5f1=>_0x31a5f1['group_id']===_0x39eba6['id'])),_0x285c14=document['querySelector']('#schedule-table\x20tbody');_0x285c14['scrollTop']=0x0;let _0x19b2c5=displayGroupSchedule(_0x5ccbd2,_0x5c1bc2);_0x19b2c5>0x2710?await animateTableScroll():await new Promise(_0x4f1277=>setTimeout(_0x4f1277,_0x19b2c5)),_0x4150cb=(_0x4150cb+0x1)%allGroups['length'],_0x2ffc61();}_0x2ffc61();}function buildTickerText(_0x3d684d){const _0x36d8bf=[];return _0x3d684d['forEach'](_0x3b2ff0=>{_0x36d8bf['push']('['+(allGroups['find'](_0x218e41=>_0x218e41['id']===_0x3b2ff0['group_id'])?.['name']||translate[lang]['noGroup'])+']\x20'+_0x3b2ff0['message']);}),_0x36d8bf['join']('\x20*****\x20');}function startSubtitle(_0x24c7a5){const _0x34e8fc=document['getElementById']('subtitle-text'),_0x456751=document['getElementById']('subtitle-container');_0x34e8fc['textContent']=buildTickerText(_0x24c7a5);const _0x5ce44a=lang==='en';_0x5ce44a?(_0x34e8fc['dir']='ltr',_0x34e8fc['style']['textAlign']='left'):(_0x34e8fc['dir']='rtl',_0x34e8fc['style']['textAlign']='right');const _0x25734b=_0x34e8fc['offsetWidth'],_0x2c792e=_0x456751['offsetWidth'],_0xf05a9=0x7d,_0x21dfa0=_0x25734b+_0x2c792e,_0x34e037=_0x21dfa0/_0xf05a9;_0x5ce44a?(_0x34e8fc['style']['setProperty']('--start-x',_0x2c792e+0x64+'px'),_0x34e8fc['style']['setProperty']('--end-x','-'+(_0x25734b+0x64)+'px')):(_0x34e8fc['style']['setProperty']('--start-x','-'+(_0x2c792e+0x64)+'px'),_0x34e8fc['style']['setProperty']('--end-x',_0x25734b+0x64+'px')),_0x34e8fc['style']['setProperty']('--duration',_0x34e037+'s');}((async()=>{const {groups:_0x509f7f}=await loadGroups();allGroups=_0x509f7f,await loadCurrentTerm();if(!currentTerm){noShowScreen(translate[lang]['noActiveTerm']);return;}let _0x311dbb=await loadScheduleContent(0x1);startSubtitle(_0x311dbb['announcements']),startPresentation(_0x311dbb['events']),updateClock(),setInterval(updateClock,0x3e8);const _0x3ab14c=[translate[lang]['sunday'],translate[lang]['monday'],translate[lang]['tuesday'],translate[lang]['wednsday'],translate[lang]['thursday'],translate[lang]['friday'],translate[lang]['saturday']];todayDayName=_0x3ab14c[new Date()['getDay']()];})());function scaleFonts(){const _0x4a30e7=0x5f8,_0x168dfb=0x240,_0x33a80a=window['innerWidth'],_0xcbc130=window['innerHeight'],_0x15f8c9=_0x33a80a/_0x4a30e7,_0x29a13d=_0xcbc130/_0x168dfb,_0x3b220d=Math['min'](_0x15f8c9,_0x29a13d);document['documentElement']['style']['fontSize']=_0x3b220d*0x10+'px';}scaleFonts(),window['addEventListener']('resize',scaleFonts);
+/**
+ * Global Values
+ */
+let allGroups, currentTerm, todayDayName;
+const lang = document.documentElement.lang || 'fa';
+const itemLimit = 8;
+const itemSpeed = 2;
+const tickerSpeed = 0.1;
+
+/**
+ * Time & Date Section
+ */
+function formatJalaliDate() {
+    const now = new Date();
+    const numType = lang === 'fa' ? "fa-IR" : "en-US";
+    const formatter = new Intl.DateTimeFormat(`${numType}-u-ca-persian`, {
+        weekday: "long",
+        day: "numeric",
+        month: "long",
+        year: "numeric"
+    });
+
+    const parts = formatter.formatToParts(now);
+    const map = {};
+    parts.forEach(p => map[p.type] = p.value);
+
+    return `${map.weekday}، ${map.day} ${map.month} ${map.year}`;
+}
+
+function formatTime() {
+    const now = new Date();
+    const numType = lang === 'fa' ? "fa-IR" : "en-US";
+    return now.toLocaleTimeString(numType);
+}
+
+function updateClock() {
+    document.getElementById("date").textContent = formatJalaliDate();
+    document.getElementById("time").textContent = formatTime();
+}
+
+/**
+ * Program Section
+*/
+function normalizePersian(str) {
+    return str
+        .replace(/ي/g, 'ی')  // Yeh
+        .replace(/ك/g, 'ک')  // Kaf
+        .replace(/ة/g, 'ه')  // Teh marbuta → Heh
+        .replace(/ؤ/g, 'و')  // Sometimes replace Arabic waw with hamza
+        .normalize();
+}
+
+function getStatus(start, end, now = new Date()) {
+    if (start <= now && now <= end) {
+        return translate[lang].inProgress;
+    } else if (start > now) {
+        const diffMin = Math.floor((start - now) / 60000);
+        return `${diffMin} ${translate[lang].minute}`;
+    }
+    return null;
+}
+
+function parseDateTime(datetimeStr) {
+    // Seperate day and time
+    const [datePart, timePart] = datetimeStr.split("T").map(s => s.trim());
+
+    // Seperate year, month and day
+    const [y, m, d] = datePart.split("-").map(Number);
+
+    // Seperate hour and minutes
+    const [hour, minutes] = timePart.split(":").map(Number);
+
+    // Reformat the time and return the final result
+    const date = new Date(y, m - 1, d, hour, minutes);
+    return date;
+}
+
+function parseTimeOnly(timeStr) {
+    // Seperate hours and minutes
+    const [hours, minutes] = timeStr.split(":").map(Number);
+
+    // Reformat the time and return the final result
+    // (Exp format: Sun May 31 2646 15:50:00 GMT+0330 (Iran Daylight Time))
+    const date = new Date();
+    date.setHours(hours, minutes, 0, 0);
+    return date;
+}
+
+function processPrograms(programs) {
+    return programs.map(p => {
+        const isWeekly = p.type === 'weekly';
+        const start = isWeekly ? parseTimeOnly(p.start) : parseDateTime(p.start);
+        const end = parseTimeOnly(p.end);
+        const status = getStatus(start, end);
+        return status ? { ...p, sortTime: start, status } : null;
+    })
+        .filter(Boolean)
+        .sort((a, b) => a.group_id - b.group_id)
+        .sort((a, b) => a.sortTime - b.sortTime);
+}
+
+function filterAndSortPrograms(events) {
+    // Sort programs
+    let programs = processPrograms(events);
+
+    // Filter only today's programs
+    const todayPrograms = programs.filter(item => {
+        if (item.day.length === 0) {
+            // Special events
+            const now = new Date();
+            const start = new Date(item.start);
+            return start.toDateString() === now.toDateString();
+        } else {
+            // Daily programs
+            return normalizePersian(item.day) === todayDayName;
+        }
+    });
+
+    // Return final result
+    return todayPrograms;
+}
+
+function initBoard(data, firstRun = false) {
+    const flightsContainer = document.getElementById('flights');
+    flightsContainer.innerHTML = '';
+    const todayPrograms = filterAndSortPrograms(data.events);
+
+    // Populate classes
+    todayPrograms.forEach(p => {
+        const row = document.createElement('tr');
+
+        if (p.status === translate[lang].inProgress) {
+            row.classList.add(`in-progress-${p.group_id}`);
+        } else {
+            row.classList.add(`remaining-${p.group_id}`);
+        }
+
+        const group = allGroups.find(g => g.id === p.group_id)?.name || translate[lang].noGroup;
+        row.innerHTML = `
+            <td class="p-3">${p.host}</td>
+            <td class="p-3">${p.title}</td>
+            <td class="p-3">${p.group_number}</td>
+            <td class="p-3">${p.place}</td>
+            <td class="p-3">${p.status}</td>
+            <td class="p-3">${group}</td>
+        `;
+        flightsContainer.appendChild(row);
+    });
+
+    const n = flights.children.length;
+
+    if (n < itemLimit) {
+        flights.style.animation = "none";
+        flights.style.removeProperty("--scroll-duration");
+    } else {
+        const duration = n * itemSpeed;
+        flights.style.setProperty("--scroll-duration", `${duration}s`);
+    }
+
+    if (firstRun) {
+        const tickerContainer = document.getElementById('ticker');
+
+        // Populate ticker
+        let sumLength = 0;
+        tickerContainer.innerHTML = data.announcements
+            .map(ann => {
+                sumLength += ann.message.length;
+                const group = allGroups.find(g => g.id === ann.group_id)?.name || translate[lang].noGroup;
+                return `<span class="mx-8">${ann.message} (${group})</span>`
+            }).join('<span class="text-yellow-300"> • </span>');
+
+        let duration = sumLength * tickerSpeed;
+        duration = Math.max(duration, 15);
+        ticker.style.setProperty("--ticker-duration", `${duration}s`);
+        if (lang === "fa") {
+            ticker.style.setProperty("--ticker-start", "100%");
+            ticker.style.setProperty("--ticker-end", "-100%");
+        } else {
+            ticker.style.setProperty("--ticker-start", "-100%");
+            ticker.style.setProperty("--ticker-end", "100%");
+        }
+    }
+}
+
+/**
+ * Starting Thread
+ */
+(async () => {
+    const { groups } = await loadGroups();
+    allGroups = groups;
+
+    // Get active term
+    currentTerm = await loadCurrentTerm();
+    if (!currentTerm) {
+        return;
+    }
+
+    // Get all groups data
+    let data = await loadScheduleContent(1);
+
+    const weekdays = [
+        translate[lang].sunday,
+        translate[lang].monday,
+        translate[lang].tuesday,
+        translate[lang].wednesday,
+        translate[lang].thursday,
+        translate[lang].friday,
+        translate[lang].saturday
+    ];
+    todayDayName = weekdays[new Date().getDay()];
+
+    initBoard(data, true);
+    setInterval(() => initBoard(data), 60000);
+
+    updateClock();
+    setInterval(updateClock, 1000);
+})();

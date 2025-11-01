@@ -50,6 +50,7 @@ header #datetime {
 }
 
 #program-management #add-program-btn,
+#program-management #import-program-btn,
 #announcements #add-announcement {
     /* size */
     width: 110px;
@@ -61,6 +62,13 @@ header #datetime {
     font-weight: bolder;
     border: none;
     border-radius: 10px;
+}
+
+#program-management #import-program-btn {
+    /* size */
+    width: 80px !important;
+    /* style */
+    background: burlywood !important;
 }
 
 /*--------------------------------------------------------------

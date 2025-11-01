@@ -1,4 +1,6 @@
 /node_modules
-/obfuscator.js
-/*raw.js
-/client/js/*raw.js
+/prev_versions
+/client/js/raw
+
+/client/css/styles.css
+/package-lock.json
