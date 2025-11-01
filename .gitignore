@@ -1,6 +1,8 @@
 /node_modules
-/prev_versions
-/client/js/raw
-
-/client/css/styles.css
 /package-lock.json
+
+/prev_versions
+
+/client/js/raw
+/client/css/color.css
+/client/src/input.css

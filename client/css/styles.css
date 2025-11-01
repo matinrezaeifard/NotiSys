@@ -1,0 +1,91 @@
+/*--------------------------------------------------------------
+# Body & Header
+--------------------------------------------------------------*/
+body {
+    font-family: "Vazirmatn";
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+header {
+    /* size */
+    padding: 10px 30px;
+    /* arrangement */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    /* style */
+    background: #004080;
+    color: white;
+}
+
+header img {
+    /* size */
+    height: 100px;
+}
+
+header .date-time-container {
+    /* size */
+    margin: 10px 20px;
+    /* style */
+    text-align: left;
+    color: white;
+    font-size: 1.5rem;
+    font-weight: bolder;
+}
+
+/*--------------------------------------------------------------
+# Flights Board
+--------------------------------------------------------------*/
+#announcement-board {
+    height: calc(100vh - 175px);
+    overflow: hidden;
+}
+
+#flights {
+    animation: scroll var(--scroll-duration, 60s) linear infinite;
+}
+
+@keyframes scroll {
+    0% {
+        transform: translateY(100vh);
+    }
+
+    100% {
+        transform: translateY(-100%);
+    }
+}
+
+.width-1\/4 {
+    width: calc(1/4 * 100%);
+}
+
+.width-1\/5 {
+    width: calc(1/5 * 100%);
+}
+
+.width-1\/6 {
+    width: calc(1/6 * 100%);
+}
+
+.width-1\/12 {
+    width: calc(1/12 * 100%);
+}
+
+/*--------------------------------------------------------------
+# Ticker
+--------------------------------------------------------------*/
+#ticker {
+    animation: ticker var(--ticker-duration) linear infinite;
+}
+
+@keyframes ticker {
+    0% {
+        transform: translateX(var(--ticker-end));
+    }
+
+    100% {
+        transform: translateX(var(--ticker-start));
+    }
+}
